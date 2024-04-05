@@ -1,295 +1,112 @@
 <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clement Beal - Blog</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Nunito"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css"
+    />
 
-<head>
-  <meta name="google-site-verification" content="zhQmeSdMHJeQ2XhiB-jYu0zkXskdxSmjuSRKq5_wEnU" />
-  <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito" />
-</head>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Nunito"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/dart.min.js"></script>
+    <script>
+      hljs.highlightAll();
+    </script>
 
-<body>
-  <div id="container">
-    <div id="top-bar" class="flex flex-vertical-align">
-      <h1 class="extend">Clément Béal</h1>
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-HJHXZM0ZQ1"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-      <div class="flex horizontal">
-        <a href="https://www.linkedin.com/in/clement-beal/" target="_blank">
-          <img src="assets/linkedin.png" class="logo rounded" />
-          LinkedIn</a
-        >
-        <a href="https://github.com/ClementBeal" target="_blank" class="button-link">
-          <img src="assets/github.png" height="30px" width="30px" class="logo rounded invert" />
-          GitHub</a
-        >
-      </div>
-    </div>
+      gtag("config", "G-HJHXZM0ZQ1");
+    </script>
 
-    <div>
-      <p class="text-capitalized text-center">
-        Innovative software engineer passionate about solving complex problems and delivering efficient, scalable solutions. Seeking a role
-        where creativity and technical expertise converge to drive impactful and forward-thinking projects.
-      </p>
-    </div>
+    <style type="text/tailwindcss">
+      @layer utilities {
+        html {
+          @apply tracking-wide text-lg;
+        }
+        .code {
+          @apply bg-gray-200 px-2 rounded-lg;
+        }
 
-    <div>
-      <div class="section-title">
-        <div class="colored-circle dimension-18"></div>
-        <div class="w-5p dashed-line"></div>
+        p {
+          @apply mb-4;
+        }
 
-        <h2>Work Experiences</h2>
-        <div class="dashed-line extend"></div>
-        <div class="colored-circle dimension-18"></div>
-      </div>
-      <div class="flex-vertical">
-        <div class="box">
-          <h3>DevOps Engineer</h3>
-          <div class="work-experience-data">
-            <p>
-              Crédit Suisse<br />Nov 2021 - Nov 2022<br />
-              Singapore
-            </p>
-          </div>
-          <div>
-            <p class="inline-block">Skills</p>
-            : <code>Docker</code> <code>Grafana</code> <code>Kubernetes</code> <code>Openshift</code> <code>Python</code>
-            <code>podman</code>
-          </div>
+        h2 {
+          @apply text-4xl font-semibold text-gray-800 my-8;
+        }
+        h3 {
+          @apply text-xl font-semibold text-gray-800 my-4;
+        }
+        a {
+          @apply text-blue-600 font-semibold;
+        }
+      }
+    </style>
+  </head>
+  <body class="flex flex-col pb-20">
+    <nav
+      class="sticky top-0 mb-10 h-20 shadow border-bottom-2 z-10 bg-blue-600 text-white flex items-center px-8"
+    >
+      <div class="w-full sm:w-3/5 sm:mx-auto flex justify-between">
+        <a href="/" class="text-white">Home</a>
 
-          <ul>
-            <li>Optimization of our Gitlab pipelines: 60% speed up using caching, personal runners, custom scripts</li>
-            <li>Spin up a fleet of Gitlab runners to support the team's workload</li>
-            <li>Monitoring our OpenShift clusters using Grafana and Prometheus</li>
-            <li>Migration of TeamCity pipelines to Gitlab</li>
-            <li>
-              Miscellaneous Python tools to increase productivity through our microservice architecture:
-              <ul>
-                <li>Synchronization of all our Gitlab repositories settings</li>
-                <li>A repository generator to create a new microservice project compliant with the company's policy</li>
-                <li>Microservice version updater throughout all our microservices</li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-        <div class="box">
-          <h3>Software Engineer</h3>
-
-          <div class="work-experience-data">
-            <p>
-              Société Générale<br />
-              Aug 2020 - Nov 2021<br />
-              Hong Kong
-            </p>
-          </div>
-
-          <div>
-            <p class="inline-block">Skills</p>
-            : <code>Docker</code> <code>React</code> <code>Python</code> <code>Typescript</code> <code>Jenkins</code>
-            <code>Kubernetes</code>
-          </div>
-
-          <ul>
-            <li>Championing the upkeep of in-house tools for our private cloud, on-boarding/leaving system, and hardware loan process.</li>
-            <li>
-              Consistently elevating the code quality of our flagship projects through rigorous testing, clean code practices, and
-              Test-Driven Development (TDD).
-            </li>
-            <li>Successfully led the migration of a project from AngularJS to React, enhancing performance and maintainability.</li>
-            <li>Revitalized the visual appeal of two websites by transitioning from Bootstrap to the sleek and modern Material design.</li>
-          </ul>
-        </div>
-
-        <div class="box">
-          <h3>Embedded Software Engineer</h3>
-
-          <div class="work-experience-data">
-            <p>
-              Schneider Electric<br />
-              Sep 2018 - Sep 2019<br />
-              Nice, France
-            </p>
-          </div>
-
-          <div>
-            <p class="inline-block">Skills</p>
-            : <code>VB.NET</code> <code>Python</code> <code>SQL</code> <code>Node-Red</code> <code>Agile</code> <code>OPC-UA</code>
-            <code>MQTT</code> <code>REST</code> <code>Docker</code> <code>React</code>
-          </div>
-
-          <ul>
-            <li>
-              Successfully implemented an automatic testing tool for Schneider Electric industrial PLCs (Programmable Logic Controller),
-              enabling testers to effortlessly select and execute a series of tests.
-            </li>
-            <li>
-              Developed a comprehensive tool featuring modules for test sequencing, result retrieval, result report generation, control
-              interface, and database management.
-            </li>
-            <li>
-              Led an investigation to automate OPC-UA server tests using the UaCTT tool, showcasing a commitment to efficiency and
-              innovation.
-            </li>
-            <li>
-              Delivered a Python script to seamlessly retrieve and summarize test results in an Excel file, streamlining the data analysis
-              process.
-            </li>
-          </ul>
+        <div class="flex gap-4">
+          <a
+            href="https://twitter.com/clementbdev"
+            target="_blank"
+            class="text-white"
+            >Twitter</a
+          >
+          <a
+            href="https://github.com/ClementBeal"
+            target="_blank"
+            class="text-white"
+            >Github</a
+          >
         </div>
       </div>
-    </div>
+    </nav>
 
-    <div>
-      <div class="section-title">
-        <div class="colored-circle dimension-18"></div>
-        <div class="w-5p dashed-line"></div>
-
-        <h2>Education</h2>
-        <div class="dashed-line extend"></div>
-        <div class="colored-circle dimension-18"></div>
-      </div>
-
-      <div class="grid grid-2-col">
-        <div class="box text-center">
-          <h3 class="text-center">Master's Degree in Engineering, Computer Science - IoT</h3>
-          <p>Polytech Nice Sophia</p>
-          <p>2016 - 2019</p>
-          <a href="https://polytech.univ-cotedazur.fr/"><img src="assets/polytech-logo.png" class="rounded w-15p" /></a>
-        </div>
-        <div class="box text-center">
-          <h3 class="">Master's Degree, Computer Science</h3>
-          <p>Polytech Nice Sophia</p>
-          <p>2018 - 2019</p>
-          <a href="https://polytech.univ-cotedazur.fr/"><img src="assets/polytech-logo.png" class="rounded w-15p" /></a>
-        </div>
-      </div>
-    </div>
-
-    <div>
-      <div class="section-title">
-        <div class="colored-circle dimension-18"></div>
-        <div class="w-5p dashed-line"></div>
-
-        <h2>Skills</h2>
-        <div class="dashed-line extend"></div>
-        <div class="colored-circle dimension-18"></div>
-      </div>
-
-      <div class="grid grid-4-col">
-        <div class="div-col">
-          <p>Web</p>
-          <div class="wrap">
-            <p class="box tag minimized-width">HTML</p>
-            <p class="box tag minimized-width">CSS</p>
-            <p class="box tag minimized-width">Javascript</p>
-            <p class="box tag minimized-width">Typescript</p>
-            <p class="box tag minimized-width">SASS</p>
-            <p class="box tag minimized-width">React</p>
+    <main
+      class="sm:w-3/5 mx-auto border border-1 p-8 rounded-lg grid sm:grid-cols-3"
+    >
+      <a
+        href="blog/optimize-a-flutter-web-build.html"
+        class="rounded-lg border overflow-auto"
+        ><div>
+          <h2 class="text-blue-600 font-semibold text-2xl text-center">
+            Optimize a Flutter web build
+          </h2>
+          <div class="bg-blue-600 text-white p-4 text-sm">
+            An experiment to make the `main.dart.js` smaller
           </div>
-        </div>
-        <div class="div-col">
-          <p>Mobile</p>
-          <div class="wrap">
-            <p class="box tag minimized-width">Dart</p>
-            <p class="box tag minimized-width">Flutter</p>
-          </div>
-        </div>
-        <div class="div-col">
-          <p>DevOps</p>
-          <div class="wrap">
-            <p class="box tag minimized-width">Docker</p>
-            <p class="box tag minimized-width">Kubernetes</p>
-            <p class="box tag minimized-width">Helm</p>
-            <p class="box tag minimized-width">Grafana</p>
-            <p class="box tag minimized-width">Gitlab</p>
-          </div>
-        </div>
-        <div class="div-col">
-          <p>Backend</p>
-          <div class="wrap">
-            <p class="box tag minimized-width">Python</p>
-            <p class="box tag minimized-width">CSS</p>
-            <p class="box tag minimized-width">Javascript</p>
-            <p class="box tag minimized-width">SASS</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div>
-      <div class="section-title">
-        <div class="colored-circle dimension-18"></div>
-        <div class="w-5p dashed-line"></div>
-
-        <h2>Languages</h2>
-        <div class="dashed-line extend"></div>
-        <div class="colored-circle dimension-18"></div>
-      </div>
-
-      <div>
-        <ul>
-          <li>French : Native Speaker</li>
-          <li>English : Fluent</li>
-          <li>Spanish : Proficient</li>
-        </ul>
-      </div>
-    </div>
-
-    <div>
-      <div class="section-title">
-        <div class="colored-circle dimension-18"></div>
-        <div class="w-5p dashed-line"></div>
-
-        <h2>Projects</h2>
-        <div class="dashed-line extend"></div>
-        <div class="colored-circle dimension-18"></div>
-      </div>
-
-      <div class="grid grid-2-col">
-        <a href="https://github.com/ClementBeal/Tyche" target="_blank">
-          <div class="box relative">
-            <p class="absolute-top-right-corner">Open Source</p>
-            <h3>Tyche</h3>
-            <p><i>Uses</i> : <code>Dart</code> <code>Flutter</code></p>
-            <p>
-              Multiplatform offline music player working on mobile and desktop<br /><br />
-
-              The goal is to replace Spotify and having an app working everywhere. It can import and play a library of music with no
-              trouble. It can fetch useful data like album cover or lyrics. The interface is modern.<br />
-              The music library can be synchronize between devices with no pain.
-            </p>
-          </div>
-        </a>
-        <a href="https://github.com/ClementBeal/audio_metadata_reader" target="_blank">
-          <div class="box relative">
-            <p class="absolute-top-right-corner">Open Source</p>
-            <h3>Audio Metadata Reader</h3>
-            <p><i>Uses</i> : <code>Dart</code></p>
-            <p>
-              An open-source Dart library designed for reading audio metadata. <br />
-              This versatile library supports metadata extraction from <code>mp3</code>, <code>mp4</code>, and <code>flac</code> files, and
-              it also provides editing capabilities. <br />
-              <br />
-
-              While there are other Dart libraries offering similar features, many of them rely on third-party libraries from different
-              languages. Notably, their sizes can be upwards of 3MB, whereas mine is a mere 30kB, delivering comparable performance.
-            </p>
-          </div>
-        </a>
-        <a href="https://play.google.com/store/apps/details?id=com.lebelime.docility" target="_blank">
-          <div class="box relative">
-            <p class="absolute-top-right-corner">Freelance</p>
-            <h3>Docility</h3>
-            <p><i>Uses</i> : <code>Dart</code> <code>Flutter</code> <code>Python</code></p>
-            <p>Dating app.</p>
-          </div>
-        </a>
-        <a href="https://play.google.com/store/apps/details?id=com.lebelime.birthdayReminder" target="_blank">
-          <div class="box relative">
-            <p class="absolute-top-right-corner">Freelance</p>
-            <h3>Birthday Reminder</h3>
-            <p><i>Uses</i> : <code>Dart</code> <code>Flutter</code></p>
-            <p>Mobile app to help the people to remembers birthdays of relatives.</p>
-          </div>
-        </a>
-      </div>
-    </div>
-  </div>
-</body>
+        </div></a
+      >
+    </main>
+  </body>
+</html>
