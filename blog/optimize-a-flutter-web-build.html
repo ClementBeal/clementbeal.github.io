@@ -240,7 +240,7 @@
 
       <p>
         An idea I've borrowed from a JS minifier (I guess babel). They suppose
-        that <code class="code">if(a==null)</code> could be change into <code class="code">if(null=a)</code> and the <code class="code">gzip</code>
+        that <code class="code">if(a==null)</code> could be changed into <code class="code">if(null=a)</code> and the <code class="code">gzip</code>
         algorithm will have better compression. In my case, it makes the
         compression slightly worse. I would like to retry this one with the AST
         tree to be sure that my conclusion is correct
@@ -250,9 +250,9 @@
 
       <p>
         The goal is to capture all the literals (booleans, strings, numbers),
-        count the number of occurences and store the most common ones into
+        count the number of occurrences and store the most common ones into
         variables. If we have a lot of <code class="code">3.14159265359</code>, we store it into the
-        variable <code class="code">aaa</code> and replace all the occurences of <code class="code">3.14159265359</code> with
+        variable <code class="code">aaa</code> and replace all the occurrences of <code class="code">3.14159265359</code> with
         <code class="code">aaa</code>.
       </p>
 
@@ -279,7 +279,7 @@
       </p>
 
       <p>
-        This optimization is also an aproximation and so is not totally correct.
+        This optimization is also an approximation and so is not totally correct.
         The output is not correct javascript but the number of chars are equals.
       </p>
 
@@ -427,7 +427,7 @@
       <p>
         Finally, the developers can write write Dart code that will be generated
         in a better way for the web. From my observations, <code class="code">dart2js</code> will
-        translate your Dart code into the same JS code without doing much
+        translate your Dart code into the same JS code without doing many
         optimizations. If you write really clean code, it will not be translated
         in something more obscure but not shorter.
       </p>
@@ -440,7 +440,7 @@
       </p>
 
       <p>
-        If you go on this page
+        If you go to this page
         <a
           href="https://api.flutter.dev/flutter/material/FilledButton-class.html"
           >https://api.flutter.dev/flutter/material/FilledButton-class.html</a
@@ -456,7 +456,7 @@
       </p>
 
       <p>
-        Thanks you for reading this post! It was "fun" to try to find
+        Thank you for reading this post! It was "fun" to try to find
         optimizations. You can find the code here
         <a
           href="https://gist.github.com/ClementBeal/10ed98576d4069aae74ef6ef11a8788b"
