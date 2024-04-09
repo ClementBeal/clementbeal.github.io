@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The journey of writing a new Flutter package</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Nunito"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css"
+    />
+    <script
+      async
+      src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/dart.min.js"
+    ></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-HJHXZM0ZQ1"
+    ></script>
+    <script>
+      hljs.highlightAll();
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-HJHXZM0ZQ1");
+    </script>
+
+    <style type="text/tailwindcss">
+      @layer utilities {
+        pre > code {
+          @apply rounded-lg;
+        }
+
+        html {
+          @apply text-lg bg-gray-950;
+        }
+        .code {
+          @apply w-min bg-blue-600 px-2 rounded-lg text-white;
+        }
+
+        p {
+          @apply mb-4;
+        }
+
+        ul {
+          @apply mb-4;
+        }
+        h1 {
+          @apply text-5xl font-bold text-center mb-8 text-white;
+        }
+        h2 {
+          @apply text-4xl font-semibold text-white my-8;
+        }
+        h3 {
+          @apply text-xl font-semibold text-white my-4;
+        }
+        a {
+          @apply text-blue-600 font-semibold;
+        }
+        li,
+        p {
+          @apply text-white;
+        }
+      }
+    </style>
+  </head>
+  <body class="flex flex-col pb-20">
+    <nav
+      class="sticky top-0 mb-10 h-20 shadow border-bottom-2 z-10 bg-blue-600 text-white flex items-center px-8"
+    >
+      <div class="w-full sm:w-3/5 sm:mx-auto flex justify-between">
+        <a href="/" class="text-white">Home</a>
+
+        <div class="flex gap-4">
+          <a
+            href="https://twitter.com/clementbdev"
+            target="_blank"
+            class="text-white"
+            >Twitter</a
+          >
+          <a
+            href="https://github.com/ClementBeal"
+            target="_blank"
+            class="text-white"
+            >Github</a
+          >
+        </div>
+      </div>
+    </nav>
+    <main
+      class="p-4 w-full sm:w-3/5 mx-auto border border-red border-1 p-8 rounded-lg"
+    >
+      <h1>The journey of writing a new package</h1>
+
+      <hr class="mb-8" />
+
+      <p>
+        A few days ago, I was looking for a way of displaying a map of the world
+        in my app and be able to select a country on the map. Surprisingly, I
+        haven't found one meeting my needs (I haven't searched a lot though).
+      </p>
+
+      <p>
+        Most of the packages giving you the opportunity to draw a map are
+        packages using third parties like
+        <code class="code">Google Maps</code> or
+        <code class="code">OpenStreetMap/Leaflet</code>. They are powerful
+        solutions but you will need to pay to render the map and what's more, it
+        cannot select a special area.
+      </p>
+
+      <p>
+        So I decided to write my own package! The goal of this article is to
+        show to the people what it could be to write a package in Flutter and to
+        show you a way to proceed to build a project. I hope it will give
+        motivations to some of you!
+      </p>
+
+      <h2>The package</h2>
+
+      <p>
+        I have decided at the first moment that the maps will be stored in
+        <code class="code">svg</code> files. To those who don't know what SVG
+        is, it's a format to design an image with mathematical formulas. It's
+        useful to have lightweight images that can scale without losing
+        information. And what's the well-known package to render
+        <code class="code">svg</code> files in Flutter? It's
+        <code class="code">flutter_svg</code>!
+      </p>
+
+      <p>
+        <code class="code">flutter_svg</code> is a good package but it doesn't
+        allow us to select a specific part of the svg. You have a disc and you
+        want to receive an onTap event? You <i>can't</i>. So I started to read
+        the source code. Maybe I can fork the project and add some interaction.
+      </p>
+
+      <p>
+        It seems <code class="code">flutter_svg</code> is not doing so much on
+        its own. It depends on a package called
+        <a href="https://github.com/dnfield/vector_graphics/tree/main"
+          >vector_graphics</a
+        >. If I understood correctly,
+        <code class="code">vector_graphics</code> compiles the svg into a binary
+        format that it can read. There's not a lot of documentation explaining
+        the projects. I didn't want to spend too much time understanding a
+        library I may use just once in my life.
+      </p>
+
+      <p>
+        An SVG file is composed of lines, circles, curves... But... Flutter can
+        draw that too! It has the <code class="code">Painter</code> class to
+        draw lines and others on a canvas. There also is an interesting class
+        called <code class="code">Path</code>. It's used to draw a succession of
+        lines but it has a special property. It has the
+        <code class="code">contains(point)</code> method that tells us if a
+        point is inside the path. So if I give the cursor position, I would know
+        what path is selected. It's decided, this is how I will render my map.
+      </p>
+
+      <h3>Write the SVG parser</h3>
+
+      <p>
+        Before rendering a map, I need to read an SVG. It's not a task very
+        complicated. <code class="code">SVG</code> is an <i>xml</i> file and it
+        contains different <code class="code">&ltpath&gt</code>. A
+        <code class="code">&ltpath&gt</code> is associated with one
+        country/region and contains 2 pieces of information:
+      </p>
+
+      <ul class="list-disc ml-8">
+        <li>
+          <code class="code">id</code>: that's the code of the
+          country/region/area. It's defined by the
+          <a href="https://en.wikipedia.org/wiki/ISO_3166-2">ISO 3166-2</a>
+          standard.
+        </li>
+        <li>
+          <code class="code">d</code>: succession of lines, curves, circles
+          etc... In short, the information to draw. Let's call that
+          <code class="code">path</code>
+        </li>
+      </ul>
+
+      <p>
+        The path is composed of commands. The commands are the unique letters in
+        lower case (relative coordinates) and upper case (absolute coordinates)
+        m ; l ; h ; v ; z; c and they are followed by several 2D points :
+        <code class="code">M273.73,261.63l-0.55,0.24</code>.<br />
+        To parse it easily, I added spaces between letters and numbers thanks to
+        the regex <code class="code">(\S)?([mlhvzcMLHVZC])</code>.
+      </p>
+
+      <p>
+        I can split the string and go through all the tokens. Each command will
+        be stored in its own class inherited <code class="code">Point</code>.
+        Then I created a class <code class="code">SvgPath</code> to accept a
+        country code and a list of <code class="code">Point</code>.
+      </p>
+
+      <h3>The SVG maps</h3>
+
+      <p>
+        I need to download the SVG maps. I have found a website called
+        <a href="https://mapsvg.com/">MapSVG</a> that provides the maps. Great!
+        I don't want to manually download the ~200 SVGs so I wrote a little
+        script. It's basically a web crawler downloading the SVG maps and
+        generating code for an enum I'm going to use with this format:
+        <code class="code">&ltcountryCamelCase&gt("&ltfilename&gt")</code>
+      </p>
+
+      <h3>The assets issue</h3>
+
+      <p>
+        As you may already know, to define assets in Flutter, we need to add
+        that in our <code class="code">pubspec.yaml</code> file:
+      </p>
+
+      <pre class="mb-4"><code>flutter:
+  assets:
+    - res/maps/</code></pre>
+
+      <p>
+        Then, you can call
+        <code class="code"
+          >DefaultAssetBundle.of(context).loadString(
+          "res/maps/france.svg")</code
+        >
+        to get the content of the SVG file.
+      </p>
+
+      <p>
+        It wasn't working. I've spent hours reading and testing. Should I put
+        the <code class="code">res</code> folder at the root or in the
+        <code class="code">lib</code> folder? Are there additional things to do?
+        Why does it not work?
+      </p>
+
+      <p>
+        If I had read the documentation a bit better, I would have read that we
+        need to add <code class="code">packages/&ltmy package name&gt</code> to
+        my path. That's all. It was the most time-consuming task of the
+        package...
+      </p>
+
+      <h3>Render the map</h3>
+
+      <p>
+        I have created a Painter called <code class="code">MapPainter</code>. It
+        takes as input a <code class="code">CountryMap</code>, the cursor
+        position, and a map theme. There is not much to do. We define 4
+        different painters for the selected/non-selected borders and the
+        selected/non-selected background and we start to draw.
+      </p>
+
+      <p>
+        To draw, we read the information contained by the
+        <code class="code">SvgPath</code>, the command objects returned by the
+        parser. Each command has its equivalent in the
+        <code class="code">Canvas</code> class so it's a simple switch.
+      </p>
+
+      <p>
+        To know if a region is selected, we use the
+        <code class="code">Path().contains(point)</code>
+        method. If it's true, we use the painters for the selected ones. There's
+        nothing much to do. Only 80 lines of code.
+      </p>
+
+      <p>
+        To add interaction like zoom in/out and moving the map, I've started to
+        compute myself the scale factor and use an offset. It was working well
+        but it added a lot of complexity and I couldn't zoom in on the cursor
+        position. But there's already a widget that can do that! You may already
+        know it, <code class="code">InteractiveViewer</code>.
+      </p>
+
+      <p>
+        I wrap my <code class="code">CustomPainter</code> with an
+        <code class="code">InteractiveViewer</code> and done. All the
+        interaction features are implemented. The project is ready to be
+        deployed.
+      </p>
+
+      <h2>The license problem</h2>
+
+      <p>
+        A user on the <code class="code">FlutterDev</code> Discord noticed that
+        I wasn't mentioning the license of MapSVG anywhere in my package. They
+        are using the <code class="code">CC BY 4.0 Deed</code> license meaning
+        that anyone using their resources must create them, add a link to the
+        license and indicate if changes were made.
+      </p>
+
+      <p>
+        I've simply added credits to them into my ReadMe. I hope it's enough.
+        The users may use the <code class="code">LicenseRegistry</code> to
+        directly add their licenses.
+      </p>
+
+      <h2>What could be added in the future</h2>
+
+      <p>
+        I want to add markers using latitude and longitude. It would give us the
+        opportunity to build some interesting projects:
+      </p>
+
+      <ul class="list-disc ml-8">
+        <li>Users could pin and save their current localization on a map</li>
+        <li>
+          It could be used to use simple
+          <a href="https://www.flightradar24.com">flightradar24.com</a>. You
+          won't have to worry about the Google Maps cost.
+        </li>
+        <li>
+          You have several shops in your country? Put them on the map and add
+          interaction on the markers
+        </li>
+      </ul>
+
+      <p>
+        I'd like to add a way to draw different layers of markers. The idea I
+        have in mind is let's say I want to build an app to track the position
+        of my train, I'd like to see the train line and the different cities
+        where it makes a stop. The need of layers is to indicate the Z
+        coordinates of the markers.
+      </p>
+
+      <p>
+        Instead of filling the regions with a color, I could use an image. It's
+        used by some people to build interesting charts.
+      </p>
+
+      <hr class="my-8" />
+
+      <p>
+        Thank you all for reading this post! I hope it gave ideas to some of
+        you!
+      </p>
+
+      <p>
+        This package wasn't really a complex project. I only needed 3 days to
+        finish it. I don't think the code quality is so good but it should be
+        enough to be understandable.
+      </p>
+      <p>
+        Feel free to contribute to this package, you can create an issue and say
+        what you would like.
+      </p>
+
+      <div class="flex flex-col">
+        <a href="https://github.com/ClementBeal/interactive_country_map"
+          >Github repo</a
+        >
+        <a href="https://pub.dev/packages/interactive_country_map">Pub page</a>
+        <a href="https://twitter.com/clementbdev">My Twitter</a>
+      </div>
+    </main>
+  </body>
+</html>

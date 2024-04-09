@@ -45,25 +45,39 @@
 
     <style type="text/tailwindcss">
       @layer utilities {
+        pre > code {
+          @apply rounded-lg;
+        }
+
         html {
-          @apply tracking-wide text-lg;
+          @apply text-lg bg-gray-950;
         }
         .code {
-          @apply bg-gray-200 px-2 rounded-lg;
+          @apply w-min bg-blue-600 px-2 rounded-lg text-white;
         }
 
         p {
           @apply mb-4;
         }
 
+        ul {
+          @apply mb-4;
+        }
+        h1 {
+          @apply text-5xl font-bold text-center mb-8 text-white;
+        }
         h2 {
-          @apply text-4xl font-semibold text-gray-800 my-8;
+          @apply text-4xl font-semibold text-white my-8;
         }
         h3 {
-          @apply text-xl font-semibold text-gray-800 my-4;
+          @apply text-xl font-semibold text-white my-4;
         }
         a {
           @apply text-blue-600 font-semibold;
+        }
+        li,
+        p {
+          @apply text-white;
         }
       }
     </style>
@@ -94,9 +108,7 @@
     <main
       class="p-4 w-full sm:w-3/5 mx-auto border border-red border-1 p-8 rounded-lg"
     >
-      <h1 class="text-5xl font-bold text-center mb-8 text-gray-800">
-        Write an audio metadata reader in Dart
-      </h1>
+      <h1>Write an audio metadata reader in Dart</h1>
 
       <hr class="mb-8" />
 

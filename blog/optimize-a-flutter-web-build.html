@@ -40,25 +40,39 @@
 
     <style type="text/tailwindcss">
       @layer utilities {
+        pre > code {
+          @apply rounded-lg;
+        }
+
         html {
-          @apply tracking-wide text-lg;
+          @apply text-lg bg-gray-950;
         }
         .code {
-          @apply bg-gray-200 px-2 rounded-lg;
+          @apply w-min bg-blue-600 px-2 rounded-lg text-white;
         }
 
         p {
           @apply mb-4;
         }
 
+        ul {
+          @apply mb-4;
+        }
+        h1 {
+          @apply text-5xl font-bold text-center mb-8 text-white;
+        }
         h2 {
-          @apply text-4xl font-semibold text-gray-800 my-8;
+          @apply text-4xl font-semibold text-white my-8;
         }
         h3 {
-          @apply text-xl font-semibold text-gray-800 my-4;
+          @apply text-xl font-semibold text-white my-4;
         }
         a {
           @apply text-blue-600 font-semibold;
+        }
+        li,
+        p {
+          @apply text-white;
         }
       }
     </style>
@@ -87,7 +101,7 @@
       </div>
     </nav>
     <main class="p-4 w-full sm:w-3/5 mx-auto border border-red border-1 p-8 rounded-lg">
-      <h1 class="text-5xl font-bold text-center mb-8 text-gray-800">
+      <h1>
         Optimize a Flutter web build
       </h1>
 
@@ -133,7 +147,7 @@
         compressed.
       </p>
 
-      <div class="p-8 bg-red-200 rounded-lg">
+      <div class="p-8 bg-red-400 rounded-lg">
         <p>
           I'm doing this experiment with the help of regex. Therefore, some
           optimizations are harder this way than with an AST tree. Some of the
@@ -318,9 +332,7 @@
         the non-english languages. This block alone is about 2.5kB.
       </p>
 
-      <pre>
-  <code>
-    B.a_2=new A.o(!1,null,null,null,null,null,57,B.B,null,-0.25,null,B.C,1.12,B.r,null,null,null,null,null,null,null,"tall displayLarge 2021",null,null,null,null)
+      <pre><code>B.a_2=new A.o(!1,null,null,null,null,null,57,B.B,null,-0.25,null,B.C,1.12,B.r,null,null,null,null,null,null,null,"tall displayLarge 2021",null,null,null,null)
     B.Z9=new A.o(!1,null,null,null,null,null,45,B.B,null,0,null,B.C,1.16,B.r,null,null,null,null,null,null,null,"tall displayMedium 2021",null,null,null,null)
     B.YB=new A.o(!1,null,null,null,null,null,36,B.B,null,0,null,B.C,1.22,B.r,null,null,null,null,null,null,null,"tall displaySmall 2021",null,null,null,null)
     B.a_i=new A.o(!1,null,null,null,null,null,32,B.B,null,0,null,B.C,1.25,B.r,null,null,null,null,null,null,null,"tall headlineLarge 2021",null,null,null,null)
@@ -335,17 +347,13 @@
     B.Zp=new A.o(!1,null,null,null,null,null,14,B.ad,null,0.1,null,B.C,1.43,B.r,null,null,null,null,null,null,null,"tall labelLarge 2021",null,null,null,null)
     B.Zc=new A.o(!1,null,null,null,null,null,12,B.ad,null,0.5,null,B.C,1.33,B.r,null,null,null,null,null,null,null,"tall labelMedium 2021",null,null,null,null)
     B.XV=new A.o(!1,null,null,null,null,null,11,B.ad,null,0.5,null,B.C,1.45,B.r,null,null,null,null,null,null,null,"tall labelSmall 2021",null,null,null,null)
-    B.a_n=new A.cY(B.a_2,B.Z9,B.YB,B.a_i,B.a_c,B.Zq,B.Xe,B.a_3,B.XT,B.Xb,B.Zd,B.Z_,B.Zp,B.Zc,B.XV)
-  </code>
-</pre>
+    B.a_n=new A.cY(B.a_2,B.Z9,B.YB,B.a_i,B.a_c,B.Zq,B.Xe,B.a_3,B.XT,B.Xb,B.Zd,B.Z_,B.Zp,B.Zc,B.XV)</code></pre>
 
       <h2>Result</h2>
 
       <p>Let's run the script:</p>
 
-      <pre>
-  <code>
-    Initial size : 1,871,623
+      <pre><code>Initial size : 1,871,623
     Initial compressed size : 541,494
     --------------
     true_false_optimizer -> 408
@@ -364,9 +372,7 @@
     -------------
   
     We saved  27,101 bytes
-    Compressed : 538,547
-  </code>
-</pre>
+    Compressed : 538,547</code></pre>
 
       <p>
         It's a gain of <code class="code">~3kB</code> or <code class="code">0.5%</code> for the compressed file. That's...
@@ -403,9 +409,7 @@
     </ul>
       <p>Then, the localization of the app.</p>
 
-      <pre>
-  <code>
-    localizationsDelegates: const [
+      <pre><code>localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -413,9 +417,7 @@
     ],
     supportedLocales: const [
         Locale('en', ''), // English, no country code
-    ],
-  </code>
-</pre>
+    ],</code></pre>
 
       <p>
         We define here we only support english but we still import every
