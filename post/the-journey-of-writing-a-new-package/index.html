@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>The journey of writing a new package | Clement Beal</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Explanation of how I built the &#39;interactive_country_map&#39; package">
+    <meta name="generator" content="Hugo 0.134.2">
+    
+    
+    
+    
+      <meta name="robots" content="index, follow">
+    
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.539a50bc62cb75ca09decd6fb5f8e37b900a0886a741aedf795f8518f43d01da.css" >
+
+
+
+    
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="https://clementbeal.github.io/post/the-journey-of-writing-a-new-package/">
+    
+
+    <meta property="og:url" content="https://clementbeal.github.io/post/the-journey-of-writing-a-new-package/">
+  <meta property="og:site_name" content="Clement Beal">
+  <meta property="og:title" content="The journey of writing a new package">
+  <meta property="og:description" content="Explanation of how I built the &#39;interactive_country_map&#39; package">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2024-05-18T21:18:22+00:00">
+    <meta property="article:modified_time" content="2024-05-18T21:18:22+00:00">
+
+  <meta itemprop="name" content="The journey of writing a new package">
+  <meta itemprop="description" content="Explanation of how I built the &#39;interactive_country_map&#39; package">
+  <meta itemprop="datePublished" content="2024-05-18T21:18:22+00:00">
+  <meta itemprop="dateModified" content="2024-05-18T21:18:22+00:00">
+  <meta itemprop="wordCount" content="1236">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="The journey of writing a new package">
+  <meta name="twitter:description" content="Explanation of how I built the &#39;interactive_country_map&#39; package">
+
+      
+    
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white production">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        Clement Beal
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/post/" title="Posts page">
+              Posts
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+<div class="ananke-socials">
+  
+    
+    <a href="https://twitter.com/clementbdev" target="_blank" rel="noopener" class="twitter ananke-social-link link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Twitter link" aria-label="follow on Twitter——Opens in a new window">
+      
+        <span class="icon"><svg style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;"/></svg>
+</span>
+      
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;"/>
+</svg>
+</span></a>
+  
+    
+    <a href="https://github.com/ClementBeal/" target="_blank" rel="noopener" class="github ananke-social-link link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="GitHub link" aria-label="follow on GitHub——Opens in a new window">
+      
+        <span class="icon"><svg style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+</span>
+      
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;"/>
+</svg>
+</span></a>
+  
+</div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside>
+      
+
+
+
+
+
+
+
+
+
+
+  <div id="sharing" class="mt3 ananke-socials">
+    
+      
+      <a href="https://twitter.com/intent/tweet?url=https://clementbeal.github.io/post/the-journey-of-writing-a-new-package/&amp;text=The%20journey%20of%20writing%20a%20new%20package" class="ananke-social-link twitter no-underline" aria-label="share on Twitter">
+        
+        <span class="icon"> <svg style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;"/></svg>
+</span>
+        
+      </a>
+    
+  </div>
+
+
+      <h1 class="f1 athelas mt3 mb1">The journey of writing a new package</h1>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2024-05-18T21:18:22Z">May 18, 2024</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-100-l"><p>A few days ago, I was looking for a way of displaying a map of the world in my app and be able to select a country on the map. Surprisingly, I haven&rsquo;t found one meeting my needs (I haven&rsquo;t searched a lot though).</p>
+<p>Most of the packages giving you the opportunity to draw a map are packages using third parties like <code>Google Maps</code> or <code>OpenStreetMap/Leaflet</code>. They are powerful solutions but you will need to pay to render the map and what&rsquo;s more, it cannot select a special area.</p>
+<p>So I decided to write my own package! The goal of this article is to show to the people what it could be to write a package in Flutter and to show you a way to proceed to build a project. I hope it will give motivations to some of you!</p>
+<h2 id="the-package">The Package</h2>
+<p>I have decided at the first moment that the maps will be stored in <code>svg</code> files. To those who don&rsquo;t know what SVG is, it&rsquo;s a format to design an image with mathematical formulas. It&rsquo;s useful to have lightweight images that can scale without losing information. And what&rsquo;s the well-known package to render <code>svg</code> files in Flutter? It&rsquo;s <code>flutter_svg</code>!</p>
+<p><code>flutter_svg</code> is a good package but it doesn&rsquo;t allow us to select a specific part of the svg. You have a disc and you want to receive an onTap event? You <em>can&rsquo;t</em>. So I started to read the source code. Maybe I can fork the project and add some interaction.</p>
+<p>It seems <code>flutter_svg</code> is not doing so much on its own. It depends on a package called <a href="https://github.com/dnfield/vector_graphics/tree/main">vector_graphics</a>. If I understood correctly, <code>vector_graphics</code> compiles the svg into a binary format that it can read. There&rsquo;s not a lot of documentation explaining the projects. I didn&rsquo;t want to spend too much time understanding a library I may use just once in my life.</p>
+<p>An SVG file is composed of lines, circles, curves&hellip; But&hellip; Flutter can draw that too! It has the <code>Painter</code> class to draw lines and others on a canvas. There also is an interesting class called <code>Path</code>. It&rsquo;s used to draw a succession of lines but it has a special property. It has the <code>contains(point)</code> method that tells us if a point is inside the path. So if I give the cursor position, I would know what path is selected. It&rsquo;s decided, this is how I will render my map.</p>
+<h3 id="write-the-svg-parser">Write the SVG Parser</h3>
+<p>Before rendering a map, I need to read an SVG. It&rsquo;s not a task very complicated. <code>SVG</code> is an <em>xml</em> file and it contains different <code>&lt;path&gt;</code>. A <code>&lt;path&gt;</code> is associated with one country/region and contains 2 pieces of information:</p>
+<ul>
+<li><code>id</code>: that&rsquo;s the code of the country/region/area. It&rsquo;s defined by the <a href="https://en.wikipedia.org/wiki/ISO_3166-2">ISO 3166-2</a> standard.</li>
+<li><code>d</code>: succession of lines, curves, circles etc&hellip; In short, the information to draw. Let&rsquo;s call that <code>path</code>.</li>
+</ul>
+<p>The path is composed of commands. The commands are the unique letters in lower case (relative coordinates) and upper case (absolute coordinates) m ; l ; h ; v ; z; c and they are followed by several 2D points: <code>M273.73,261.63l-0.55,0.24</code>.
+To parse it easily, I added spaces between letters and numbers thanks to the regex <code>(\S)?([mlhvzcMLHVZC])</code>.</p>
+<p>I can split the string and go through all the tokens. Each command will be stored in its own class inherited <code>Point</code>. Then I created a class <code>SvgPath</code> to accept a country code and a list of <code>Point</code>.</p>
+<h3 id="the-svg-maps">The SVG Maps</h3>
+<p>I need to download the SVG maps. I have found a website called <a href="https://mapsvg.com/">MapSVG</a> that provides the maps. Great! I don&rsquo;t want to manually download the ~200 SVGs so I wrote a little script. It&rsquo;s basically a web crawler downloading the SVG maps and generating code for an enum I&rsquo;m going to use with this format: <code>&lt;countryCamelCase&gt;(&quot;&lt;filename&gt;&quot;)</code></p>
+<h3 id="the-assets-issue">The Assets Issue</h3>
+<p>As you may already know, to define assets in Flutter, we need to add that in our <code>pubspec.yaml</code> file:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">flutter</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">assets</span>:
+</span></span><span style="display:flex;"><span>    - <span style="color:#ae81ff">res/maps/</span>
+</span></span></code></pre></div><p>Then, you can call <code>DefaultAssetBundle.of(context).loadString(&quot;res/maps/france.svg&quot;)</code> to get the content of the SVG file.</p>
+<p>It wasn&rsquo;t working. I&rsquo;ve spent hours reading and testing. Should I put the <code>res</code> folder at the root or in the <code>lib</code> folder? Are there additional things to do? Why does it not work?</p>
+<p>If I had read the documentation a bit better, I would have read that we need to add <code>packages/&lt;my package name&gt;</code> to my path. That&rsquo;s all. It was the most time-consuming task of the package&hellip;</p>
+<h3 id="render-the-map">Render the Map</h3>
+<p>I have created a Painter called <code>MapPainter</code>. It takes as input a <code>CountryMap</code>, the cursor position, and a map theme. There is not much to do. We define 4 different painters for the selected/non-selected borders and the selected/non-selected background and we start to draw.</p>
+<p>To draw, we read the information contained by the <code>SvgPath</code>, the command objects returned by the parser. Each command has its equivalent in the <code>Canvas</code> class so it&rsquo;s a simple switch.</p>
+<p>To know if a region is selected, we use the <code>Path().contains(point)</code> method. If it&rsquo;s true, we use the painters for the selected ones. There&rsquo;s nothing much to do. Only 80 lines of code.</p>
+<p>To add interaction like zoom in/out and moving the map, I&rsquo;ve started to compute myself the scale factor and use an offset. It was working well but it added a lot of complexity and I couldn&rsquo;t zoom in on the cursor position. But there&rsquo;s already a widget that can do that! You may already know it, <code>InteractiveViewer</code>.</p>
+<p>I wrap my <code>CustomPainter</code> with an <code>InteractiveViewer</code> and done. All the interaction features are implemented. The project is ready to be deployed.</p>
+<h2 id="the-license-problem">The License Problem</h2>
+<p>A user on the <code>FlutterDev</code> Discord noticed that I wasn&rsquo;t mentioning the license of MapSVG anywhere in my package. They are using the <code>CC BY 4.0 Deed</code> license meaning that anyone using their resources must create them, add a link to the license and indicate if changes were made.</p>
+<p>I&rsquo;ve simply added credits to them into my ReadMe. I hope it&rsquo;s enough. The users may use the <code>LicenseRegistry</code> to directly add their licenses.</p>
+<h2 id="what-could-be-added-in-the-future">What Could Be Added in the Future</h2>
+<p>I want to add markers using latitude and longitude. It would give us the opportunity to build some interesting projects:</p>
+<ul>
+<li>Users could pin and save their current localization on a map</li>
+<li>It could be used to use simple <a href="https://www.flightradar24.com">flightradar24.com</a>. You won&rsquo;t have to worry about the Google Maps cost.</li>
+<li>You have several shops in your country? Put them on the map and add interaction on the markers</li>
+</ul>
+<p>I&rsquo;d like to add a way to draw different layers of markers. The idea I have in mind is let&rsquo;s say I want to build an app to track the position of my train, I&rsquo;d like to see the train line and the different cities where it makes a stop. The need of layers is to indicate the Z coordinates of the markers.</p>
+<p>Instead of filling the regions with a color, I could use an image. It&rsquo;s used by some people to build interesting charts.</p>
+<hr>
+<p>Thank you all for reading this post! I hope it gave ideas to some of you!</p>
+<p>This package wasn&rsquo;t really a complex project. I only needed 3 days to finish it. I don&rsquo;t think the code quality is so good but it should be enough to be understandable.</p>
+<p>Feel free to contribute to this package, you can create an issue and say what you would like.</p>
+<p><a href="https://github.com/ClementBeal/interactive_country_map">Github repo</a><br>
+<a href="https://pub.dev/packages/interactive_country_map">Pub page</a><br>
+<a href="https://twitter.com/clementbdev">My Twitter</a></p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://clementbeal.github.io/" >
+    &copy;  Clement Beal 2024 
+  </a>
+    <div>
+<div class="ananke-socials">
+  
+    
+    <a href="https://twitter.com/clementbdev" target="_blank" rel="noopener" class="twitter ananke-social-link link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Twitter link" aria-label="follow on Twitter——Opens in a new window">
+      
+        <span class="icon"><svg style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;"/></svg>
+</span>
+      
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;"/>
+</svg>
+</span></a>
+  
+    
+    <a href="https://github.com/ClementBeal/" target="_blank" rel="noopener" class="github ananke-social-link link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="GitHub link" aria-label="follow on GitHub——Opens in a new window">
+      
+        <span class="icon"><svg style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+</span>
+      
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;"/>
+</svg>
+</span></a>
+  
+</div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

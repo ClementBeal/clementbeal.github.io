@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Optimize a Flutter web build | Clement Beal</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="An experiment to make the `main.dart.js` smaller">
+    <meta name="generator" content="Hugo 0.134.2">
+    
+    
+    
+    
+      <meta name="robots" content="index, follow">
+    
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.539a50bc62cb75ca09decd6fb5f8e37b900a0886a741aedf795f8518f43d01da.css" >
+
+
+
+    
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="https://clementbeal.github.io/post/optimize-a-flutter-web-build/">
+    
+
+    <meta property="og:url" content="https://clementbeal.github.io/post/optimize-a-flutter-web-build/">
+  <meta property="og:site_name" content="Clement Beal">
+  <meta property="og:title" content="Optimize a Flutter web build">
+  <meta property="og:description" content="An experiment to make the `main.dart.js` smaller">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2024-05-18T21:14:16+00:00">
+    <meta property="article:modified_time" content="2024-05-18T21:14:16+00:00">
+
+  <meta itemprop="name" content="Optimize a Flutter web build">
+  <meta itemprop="description" content="An experiment to make the `main.dart.js` smaller">
+  <meta itemprop="datePublished" content="2024-05-18T21:14:16+00:00">
+  <meta itemprop="dateModified" content="2024-05-18T21:14:16+00:00">
+  <meta itemprop="wordCount" content="1470">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Optimize a Flutter web build">
+  <meta name="twitter:description" content="An experiment to make the `main.dart.js` smaller">
+
+      
+    
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white production">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        Clement Beal
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/post/" title="Posts page">
+              Posts
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+<div class="ananke-socials">
+  
+    
+    <a href="https://twitter.com/clementbdev" target="_blank" rel="noopener" class="twitter ananke-social-link link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Twitter link" aria-label="follow on Twitter——Opens in a new window">
+      
+        <span class="icon"><svg style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;"/></svg>
+</span>
+      
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;"/>
+</svg>
+</span></a>
+  
+    
+    <a href="https://github.com/ClementBeal/" target="_blank" rel="noopener" class="github ananke-social-link link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="GitHub link" aria-label="follow on GitHub——Opens in a new window">
+      
+        <span class="icon"><svg style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+</span>
+      
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;"/>
+</svg>
+</span></a>
+  
+</div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside>
+      
+
+
+
+
+
+
+
+
+
+
+  <div id="sharing" class="mt3 ananke-socials">
+    
+      
+      <a href="https://twitter.com/intent/tweet?url=https://clementbeal.github.io/post/optimize-a-flutter-web-build/&amp;text=Optimize%20a%20Flutter%20web%20build" class="ananke-social-link twitter no-underline" aria-label="share on Twitter">
+        
+        <span class="icon"> <svg style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;"/></svg>
+</span>
+        
+      </a>
+    
+  </div>
+
+
+      <h1 class="f1 athelas mt3 mb1">Optimize a Flutter web build</h1>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2024-05-18T21:14:16Z">May 18, 2024</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-100-l"><p>A few weeks ago, I was working on porting my Flutter app to the web. It&rsquo;s a very straightforward operation. I just needed to add the <code>web</code> platform, build, and done! Then, I remembered that a lot of people were complaining about Flutter&rsquo;s web build. The main complaint is that the app (or web app) has to download a huge JavaScript file the first time a user loads the app. This JavaScript file <code>main.dart.js</code> weighs 2.5MB at least!</p>
+<p>Once you start to read this <code>main.dart.js</code>, we can notice that we can make some optimizations here and there to reduce the total size of the file. I started to have fun trying to find ways to reduce its size. It&rsquo;s what I&rsquo;m going to do with you now!</p>
+<p>I&rsquo;ll use Python to write a script to reduce the total size of the <code>main.dart.js</code>. I&rsquo;ll compare the final size with the original size and because this file is compressed when transferred, I&rsquo;ll also compress the final file with <code>gzip</code> and make a comparison.</p>
+<p>Let&rsquo;s first generate the Flutter project:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flutter create --platforms web -t skeleton my_app
+</span></span></code></pre></div><p>Then, build it for the CanvasKit renderer with the most aggressive JavaScript optimizations.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>flutter build web --release --web-renderer canvaskit --dart2js-optimization O4
+</span></span></code></pre></div><p>The current size is <code>1 871 623</code> bytes uncompressed and <code>546 031</code> compressed.</p>
+<blockquote>
+<p>I&rsquo;m doing this experiment with the help of regex. Therefore, some optimizations are harder this way than with an AST tree. Some of the optimizations will not produce the exact output but something very close.</p>
+</blockquote>
+<h2 id="quick-dart-optimizations">Quick Dart Optimizations</h2>
+<h3 id="replace-truefalse-with-01">Replace true/false with !0/!1</h3>
+<p>There still are some <code>true</code>/<code>false</code> literals in the final code. In JavaScript, <code>!0</code>/<code>!1</code> is respectively equivalent to <code>true</code>/<code>false</code>.</p>
+<h3 id="remove-indentation">Remove Indentation</h3>
+<p>A little part of the code still has indentation. Let&rsquo;s find that with the regex <code>^\s+</code> and replace the matches with empty strings.</p>
+<h3 id="empty-constructor">Empty Constructor</h3>
+<p>In JavaScript, if we have an empty constructor like <code>new A()</code>, we can remove the parentheses.</p>
+<h2 id="number-representations">Number Representations</h2>
+<h3 id="use-fractions">Use Fractions</h3>
+<p>Some decimal numbers can be written as fractions. For instance, we could write 1/3 instead of 0.33333333333333&hellip; We have to check if the length of the fraction is smaller than the current decimal number otherwise nothing changes.</p>
+<h3 id="decimal-leading-zero">Decimal Leading Zero</h3>
+<p>If the integer part of the number is 0, we remove it and only keep the dot and the decimal part. One byte saved!</p>
+<p><code>0.93849</code> -&gt; <code>.93849</code></p>
+<h3 id="multiplication-by-0">Multiplication by 0</h3>
+<p>We can find some multiplication by 0. We can remove them peacefully and save a few more bytes.</p>
+<h3 id="shorten-the-float-length">Shorten the Float Length</h3>
+<p>It can be risky but let&rsquo;s try it for the experience. We cut off the decimals after the 8th decimal.</p>
+<p><code>3.14159265359</code> -&gt; <code>3.14159265</code></p>
+<h3 id="use-scientific-notation-not-implemented">Use Scientific Notation (Not Implemented)</h3>
+<p>The idea is to convert numbers multiplied by a power of 10 into the notation <code>eXXX</code>.</p>
+<p>Examples:</p>
+<ul>
+<li><code>5241330000</code> -&gt; <code>524133e4</code></li>
+<li><code>0.0001</code> -&gt; <code>1e-4</code></li>
+</ul>
+<h2 id="optimizations-that-are-finally-not-optimizations">Optimizations That Are Finally Not Optimizations</h2>
+<p>The following optimizations produce a JS code that is shorter but the gzip output is bigger. After the fact, I realized I was doing the job of a compressing algorithm but in a worse way. For this reason, I do not add them to the optimization chain.</p>
+<h3 id="reduce-null-arguments-array">Reduce Null Arguments Array</h3>
+<p>There&rsquo;s a lot of functions having plenty of successive <code>null</code> as arguments like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">Z3</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">A</span>.<span style="color:#a6e22e">o</span>(<span style="color:#f92672">!</span><span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">A</span>, <span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#34;Roboto&#34;</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">E</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">e</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#34;blackHelsinki displayLarge&#34;</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>)
+</span></span></code></pre></div><p>The idea is to use the spread operator <code>...</code> on an Array of null: <code>...Array(5).fill(null)</code></p>
+<h3 id="flip-null-condition">Flip Null Condition</h3>
+<p>An idea I&rsquo;ve borrowed from a JS minifier (I guess Babel). They suppose that <code>if(a==null)</code> could be changed into <code>if(null=a)</code> and the <code>gzip</code> algorithm will have better compression. In my case, it makes the compression slightly worse. I would like to retry this one with the AST tree to be sure that my conclusion is correct.</p>
+<h3 id="gather-the-literals-into-variables">Gather the Literals into Variables</h3>
+<p>The goal is to capture all the literals (booleans, strings, numbers), count the number of occurrences, and store the most common ones into variables. If we have a lot of <code>3.14159265359</code>, we store it into the variable <code>aaa</code> and replace all the occurrences of <code>3.14159265359</code> with <code>aaa</code>.</p>
+<h2 id="conditions">Conditions</h2>
+<h3 id="remove-some-dead-null-condition">Remove Some Dead Null Condition</h3>
+<p>We can find this type of condition <code>s==null?null:s</code>. It could simply be <code>s</code>.</p>
+<h3 id="transform-x--0-or-x--0">Transform <code>x === 0</code> or <code>x !== 0</code></h3>
+<p>Let&rsquo;s use the fact that <code>0</code> combined with the <code>!</code> operator returns <code>true</code> and anything else returns <code>false</code>.</p>
+<p>We would rewrite:</p>
+<ul>
+<li><code>x === 0</code> into <code>!x</code></li>
+<li><code>x !== 0</code> into <code>!!x</code></li>
+</ul>
+<p>This optimization is also an approximation and so is not totally correct. The output is not correct JavaScript but the number of chars are equal.</p>
+<h3 id="ternary-condition">Ternary Condition</h3>
+<p>There are different micro-optimizations possible for the ternary condition. Let&rsquo;s do it in this case:</p>
+<p><code>a == null ? 23: a</code> -&gt; <code>a ?? 23</code></p>
+<h3 id="nullish-coalescing-assignment-operator-">Nullish Coalescing Assignment Operator <code>??=</code></h3>
+<p><code>if(a==null) a = 3</code> could be <code>a ??= 3</code></p>
+<h2 id="manual-optimizations-linked-to-flutter">Manual Optimizations Linked to Flutter</h2>
+<p>Those optimizations are probably not producing correct code but I believe it&rsquo;s a way to drastically reduce the code size.</p>
+<p>Flutter provides a system to make the font renderer work for any language. You will have fonts for English-like languages but also for Chinese, Arabic, Japanese, Thai, etc. Your app is probably not translating or displaying these languages. We can try to remove some of them.</p>
+<p>We save 15kB when we remove the fallback fonts like <code>Noto Sans Adlam</code>. Then, we could imagine a smart optimization removing the text theme for the non-English languages. This block alone is about 2.5kB.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">a_2</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">A</span>.<span style="color:#a6e22e">o</span>(<span style="color:#f92672">!</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#ae81ff">57</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">B</span>, <span style="color:#66d9ef">null</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">0.25</span>, <span style="color:#66d9ef">null</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">C</span>, <span style="color:#ae81ff">1.12</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">r</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#34;tall displayLarge 2021&#34;</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">Z9</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">A</span>.<span style="color:#a6e22e">o</span>(<span style="color:#f92672">!</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#ae81ff">45</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">B</span>, <span style="color:#66d9ef">null</span>, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">null</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">C</span>, <span style="color:#ae81ff">1.16</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">r</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#34;tall displayMedium 2021&#34;</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">YB</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">A</span>.<span style="color:#a6e22e">o</span>(<span style="color:#f92672">!</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#ae81ff">36</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">B</span>, <span style="color:#66d9ef">null</span>, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">null</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">C</span>, <span style="color:#ae81ff">1.22</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">r</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#34;tall displaySmall 2021&#34;</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">a_i</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">A</span>.<span style="color:#a6e22e">o</span>(<span style="color:#f92672">!</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#ae81ff">32</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">B</span>, <span style="color:#66d9ef">null</span>, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">null</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">C</span>, <span style="color:#ae81ff">1.25</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">r</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#34;tall headlineLarge 2021&#34;</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">a_c</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">A</span>.<span style="color:#a6e22e">o</span>(<span style="color:#f92672">!</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#ae81ff">28</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">B</span>, <span style="color:#66d9ef">null</span>, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">null</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">C</span>, <span style="color:#ae81ff">1.29</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">r</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#34;tall headlineMedium 2021&#34;</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">Zq</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">A</span>.<span style="color:#a6e22e">o</span>(<span style="color:#f92672">!</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#ae81ff">24</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">B</span>, <span style="color:#66d9ef">null</span>, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">null</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">C</span>, <span style="color:#ae81ff">1.33</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">r</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#34;tall headlineSmall 2021&#34;</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">Xe</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">A</span>.<span style="color:#a6e22e">o</span>(<span style="color:#f92672">!</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#ae81ff">22</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">B</span>, <span style="color:#66d9ef">null</span>, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">null</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">C</span>, <span style="color:#ae81ff">1.27</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">r</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#34;tall titleLarge 2021&#34;</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">a_3</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">A</span>.<span style="color:#a6e22e">o</span>(<span style="color:#f92672">!</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#ae81ff">16</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">ad</span>, <span style="color:#66d9ef">null</span>, <span style="color:#ae81ff">0.15</span>, <span style="color:#66d9ef">null</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">C</span>, <span style="color:#ae81ff">1.5</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">r</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#34;tall titleMedium 2021&#34;</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">XT</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">A</span>.<span style="color:#a6e22e">o</span>(<span style="color:#f92672">!</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#ae81ff">14</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">ad</span>, <span style="color:#66d9ef">null</span>, <span style="color:#ae81ff">0.1</span>, <span style="color:#66d9ef">null</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">C</span>, <span style="color:#ae81ff">1.43</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">r</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#34;tall titleSmall 2021&#34;</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">Yt</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">A</span>.<span style="color:#a6e22e">o</span>(<span style="color:#f92672">!</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#ae81ff">12</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">ad</span>, <span style="color:#66d9ef">null</span>, <span style="color:#ae81ff">0.4</span>, <span style="color:#66d9ef">null</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">C</span>, <span style="color:#ae81ff">1.5</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">r</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#34;tall labelLarge 2021&#34;</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">a_y</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">A</span>.<span style="color:#a6e22e">o</span>(<span style="color:#f92672">!</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#ae81ff">11</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">ad</span>, <span style="color:#66d9ef">null</span>, <span style="color:#ae81ff">0.5</span>, <span style="color:#66d9ef">null</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">C</span>, <span style="color:#ae81ff">1.45</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">r</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#34;tall labelMedium 2021&#34;</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">Zk</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">A</span>.<span style="color:#a6e22e">o</span>(<span style="color:#f92672">!</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#ae81ff">10</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">ad</span>, <span style="color:#66d9ef">null</span>, <span style="color:#ae81ff">0.5</span>, <span style="color:#66d9ef">null</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">C</span>, <span style="color:#ae81ff">1.4</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">r</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#34;tall labelSmall 2021&#34;</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">Wu</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">A</span>.<span style="color:#a6e22e">o</span>(<span style="color:#f92672">!</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#ae81ff">16</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">F</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">C</span>, <span style="color:#ae81ff">1.75</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">w</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#34;tall bodyLarge 2021&#34;</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">Ym</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">A</span>.<span style="color:#a6e22e">o</span>(<span style="color:#f92672">!</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#ae81ff">14</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">F</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">C</span>, <span style="color:#ae81ff">1.5</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">w</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#34;tall bodyMedium 2021&#34;</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">a_w</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">A</span>.<span style="color:#a6e22e">o</span>(<span style="color:#f92672">!</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#ae81ff">12</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">F</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">C</span>, <span style="color:#ae81ff">1.45</span>, <span style="color:#a6e22e">B</span>.<span style="color:#a6e22e">w</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#e6db74">&#34;tall bodySmall 2021&#34;</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>, <span style="color:#66d9ef">null</span>)
+</span></span></code></pre></div><p>Removing it and a few other styles we can gain about 50kB.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>By running all the optimizations, we can gain about 10kB in total. I believe more advanced optimizations could be achieved if the logic were to be done with an AST parser instead of regex. It&rsquo;s also easy to break the code with regex because the JavaScript syntax is quite tricky.</p>
+<p>That was a fun experiment that probably inspired me to do something similar but with the help of an AST tree and ESBuild. The experiment ends here and I hope you learned something today.</p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://clementbeal.github.io/" >
+    &copy;  Clement Beal 2024 
+  </a>
+    <div>
+<div class="ananke-socials">
+  
+    
+    <a href="https://twitter.com/clementbdev" target="_blank" rel="noopener" class="twitter ananke-social-link link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Twitter link" aria-label="follow on Twitter——Opens in a new window">
+      
+        <span class="icon"><svg style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;"/></svg>
+</span>
+      
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;"/>
+</svg>
+</span></a>
+  
+    
+    <a href="https://github.com/ClementBeal/" target="_blank" rel="noopener" class="github ananke-social-link link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="GitHub link" aria-label="follow on GitHub——Opens in a new window">
+      
+        <span class="icon"><svg style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+</span>
+      
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;"/>
+</svg>
+</span></a>
+  
+</div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

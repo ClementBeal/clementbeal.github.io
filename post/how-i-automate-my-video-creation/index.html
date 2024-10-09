@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>How I automate my video creation | Clement Beal</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="I&#39;m saving hours of editing by giving the annoying job to a robot">
+    <meta name="generator" content="Hugo 0.134.2">
+    
+    
+    
+    
+      <meta name="robots" content="index, follow">
+    
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.539a50bc62cb75ca09decd6fb5f8e37b900a0886a741aedf795f8518f43d01da.css" >
+
+
+
+    
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="https://clementbeal.github.io/post/how-i-automate-my-video-creation/">
+    
+
+    <meta property="og:url" content="https://clementbeal.github.io/post/how-i-automate-my-video-creation/">
+  <meta property="og:site_name" content="Clement Beal">
+  <meta property="og:title" content="How I automate my video creation">
+  <meta property="og:description" content="I&#39;m saving hours of editing by giving the annoying job to a robot">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2024-08-14T12:32:04+00:00">
+    <meta property="article:modified_time" content="2024-08-14T12:32:04+00:00">
+
+  <meta itemprop="name" content="How I automate my video creation">
+  <meta itemprop="description" content="I&#39;m saving hours of editing by giving the annoying job to a robot">
+  <meta itemprop="datePublished" content="2024-08-14T12:32:04+00:00">
+  <meta itemprop="dateModified" content="2024-08-14T12:32:04+00:00">
+  <meta itemprop="wordCount" content="1453">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="How I automate my video creation">
+  <meta name="twitter:description" content="I&#39;m saving hours of editing by giving the annoying job to a robot">
+
+      
+    
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white production">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        Clement Beal
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/post/" title="Posts page">
+              Posts
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+<div class="ananke-socials">
+  
+    
+    <a href="https://twitter.com/clementbdev" target="_blank" rel="noopener" class="twitter ananke-social-link link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Twitter link" aria-label="follow on Twitter——Opens in a new window">
+      
+        <span class="icon"><svg style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;"/></svg>
+</span>
+      
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;"/>
+</svg>
+</span></a>
+  
+    
+    <a href="https://github.com/ClementBeal/" target="_blank" rel="noopener" class="github ananke-social-link link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="GitHub link" aria-label="follow on GitHub——Opens in a new window">
+      
+        <span class="icon"><svg style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+</span>
+      
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;"/>
+</svg>
+</span></a>
+  
+</div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside>
+      
+
+
+
+
+
+
+
+
+
+
+  <div id="sharing" class="mt3 ananke-socials">
+    
+      
+      <a href="https://twitter.com/intent/tweet?url=https://clementbeal.github.io/post/how-i-automate-my-video-creation/&amp;text=How%20I%20automate%20my%20video%20creation" class="ananke-social-link twitter no-underline" aria-label="share on Twitter">
+        
+        <span class="icon"> <svg style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;"/></svg>
+</span>
+        
+      </a>
+    
+  </div>
+
+
+      <h1 class="f1 athelas mt3 mb1">How I automate my video creation</h1>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2024-08-14T12:32:04Z">August 14, 2024</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-100-l"><p>Last week, I was thinking about starting a YouTube channel. I wanted to share my knowledge about Python and Flutter. I&rsquo;m not an expert, but I think I can have something to share.</p>
+<p>The thing is I&rsquo;m very lazy. I&rsquo;m willing to make videos, but I really don&rsquo;t want to spend hours writing a script, recording my voice, editing the video, etc&hellip; I don&rsquo;t really know how to do all that stuff, and neither want to learn 4 new software programs. I made my decision: I&rsquo;m going to let the machine do most of the job for me.</p>
+<p>I started to think how to automate the process. What do I want to do myself? What should I let the machine do? How much money do I want to spend? I don&rsquo;t want to spend a single penny. Maybe $1 at most for a few videos&hellip;</p>
+<h1 id="the-script">The script</h1>
+<p>I want to write the script. I think it&rsquo;s the fun part of the job. I&rsquo;ll use some LLMs like ChatGPT or Gemini to help me with the writing and to check my spelling because English is not my mother tongue, and a Frenchman being fluent is not very common. They will be useful to ask for information and explain stories or concepts. They often have little details that we can look for later.</p>
+<p>I&rsquo;m talking about writing the script myself, but how do I do it? I want to use local software, so bye-bye Google Docs. Word is too big and complex for my use case. It wouldn&rsquo;t be easy to parse the script file afterward. My final choice is Obsidian. It&rsquo;s free software used to write notes. Everything is markdown, it&rsquo;s lightweight, and the folder structure is easy.</p>
+<p>Now, I know how to write my script. What do I do with it? It&rsquo;s time to use Python and write some smart code!</p>
+<h1 id="video-generation">Video generation</h1>
+<h2 id="moviepy">MoviePy</h2>
+<p>It&rsquo;s my first solution to generate videos. It&rsquo;s a Python package that uses <strong>ffmpeg</strong> under the hood to generate a video. It&rsquo;s very simple!</p>
+<p>You create a bunch of <em>clips</em>. A clip can be an image, text, or a video. You define the duration and concatenate them into one single clip. You add your audio file, and you compile the video! The automation is fast, but the generation can be a bit slow. To generate a basic music video with lyrics, meaning we change the displayed text every few seconds, it takes one minute to generate the video.</p>
+<p>When you start to use video clips to generate your own videos, the generation time gets much higher! Another con is it&rsquo;s not trivial to guess how long a clip should last. You cannot generate a preview. You have to wait X minutes for generation, watch your video, spot the mistakes, adapt your code and generate again&hellip;</p>
+<p>I wouldn&rsquo;t recommend MoviePy if you want to create complex videos. It&rsquo;s slow, has no live editing, and the documentation is outdated. It&rsquo;s an old package, and the last official release was in 2020. You need to install a lot of third-party software to use all the features of the package. You can meet strange issues, like one of mine was I couldn&rsquo;t generate texts at all&hellip; But a bunch of enthusiasts are trying to update MoviePy and give it a new youth.</p>
+<p>I only use MoviePy to generate karaoke videos. You could use it to generate compilations of music, Twitch clips, TikTok shorts, etc&hellip; I think that&rsquo;s the best use case for this package.</p>
+<p>So what do I use to generate complex videos?</p>
+<h1 id="shotcut">Shotcut</h1>
+<p>I decided that the best thing was to pilot a video editing software. I didn&rsquo;t do a lot of research for the software to use. My choice is <em>Shotcut</em>, a free and open-source editing software available on Linux, and it works well!</p>
+<p>I tried to find some mystical and obscure Python packages to pilot the creation, but unfortunately, nothing&hellip; I didn&rsquo;t give up!</p>
+<p>I decided to reverse-engineer the file generated by a Shotcut project. After a few hours of adding pictures, audio, and videos in the software, I seized the concept of the Shotcut project format.</p>
+<p>It&rsquo;s an <em>XML</em> file following a special structure. We have a bunch of elements called <code>playlist</code>. A playlist is a kind of big array containing a bunch of media called <code>producer</code> by Shotcut.</p>
+<p>We have some special playlists:</p>
+<ul>
+<li><strong>main_bin</strong> -&gt; that&rsquo;s the software panel containing all the media that you can drag and drop into your video tracks</li>
+<li><strong>background</strong> -&gt; it&rsquo;s a video track. It&rsquo;s always a black background. It&rsquo;s used to define what is shown when media doesn&rsquo;t fit the project dimensions.</li>
+</ul>
+<p>Then we can create <code>playlist0</code> that will contain our main video track, <code>playlist1</code> that will contain the background music, and <code>playlist2</code> that will contain all my audio recordings.</p>
+<p>I will not explain the <em>XML</em> schema more now. It would deserve a full post to explain what I have learned, but you can still contact me if you wish!</p>
+<p>But now that&rsquo;s great. I have a way to pilot a video editing software that&rsquo;s way faster than MoviePy and allows me to preview my videos and add FX if I want to.</p>
+<p>Now, I need to link my script and this piloting code.</p>
+<h1 id="piloting-my-editing-software">Piloting my editing software</h1>
+<p>I&rsquo;ve got a video script. How do I generate my Shotcut project file?</p>
+<p>I didn&rsquo;t find a better solution than defining some conventions in my script. Each header line will be used to define a new &ldquo;slide.&rdquo; What I call a slide is media that will illustrate what my voice is saying.</p>
+<p>Let&rsquo;s say I want to show a cat picture and say something about it. It will be a <code>Picture</code> slide. I can do the same with videos, texts, or code.</p>
+<p>These are my current slide types:</p>
+<ul>
+<li>Picture -&gt; use the picture from the markdown</li>
+<li>Picture local -&gt; download the picture using the link in the markdown</li>
+<li>Video -&gt; use the video from the markdown and only use a specific part of it</li>
+<li>Text -&gt; translate the markdown into a boring PowerPoint-like slide</li>
+<li>Code -&gt; use carbon-now to generate pretty code snippets</li>
+<li>Stable Diffusion -&gt; make a call to an online Stable Diffusion API</li>
+</ul>
+<p>My markdown will look like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-md" data-lang="md"><span style="display:flex;"><span># Picture local
+</span></span><span style="display:flex;"><span>(some image path)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>This cat is a symbol of laziness. I would like to be a cat and sleep like it does.
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span># Video
+</span></span><span style="display:flex;"><span>(some YouTube URL)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">-</span> 02:00 -&gt; 02:23 (only use the video between these two timestamps)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>We can observe two cats walking freely in the garden. They are very beautiful, both of them.
+</span></span></code></pre></div><p>My Python script parses the markdown, gets each slide, extracts the information, and generates the Shotcut project with all the images and videos in the correct order.</p>
+<h1 id="recording-my-voice">Recording my voice</h1>
+<p>At the beginning, I was thinking about using Audacity to record my voice and apply some filters. Problem: I haven&rsquo;t found a way to automate the process.
+Not such a problem! I can do it with Python! I use a bunch of libraries, and that&rsquo;s my workflow:</p>
+<ul>
+<li><code>arecord</code> -&gt; it&rsquo;s a command-line app that can record in <code>.wav</code>. My Python script calls it with the correct parameters.</li>
+<li>noise reduction -&gt; uses deep-learning or statistical noise reduction, depending on what feels best</li>
+<li>audio effects -&gt; I apply some filters: equalizer, normalization, compression</li>
+<li>remove the silences at the beginning and the end</li>
+</ul>
+<p>Now, my Python script is a bit different. The console will show me text to record, I&rsquo;ll press <code>enter</code> to record, and when I&rsquo;m done, <code>ctrl+c</code>. Moreover, I synchronize the duration of a slide with the total duration of its audio recording.</p>
+<p>And that&rsquo;s it! My video is ready to be generated!</p>
+<h1 id="how-to-improve-the-process">How to Improve the Process?</h1>
+<h2 id="image-generation">Image Generation</h2>
+<p>In my workflow, I already use an API to generate my illustrations. I would like to use a local version of <em>Stable Diffusion</em> and use Python to generate what I want, but my PC is not powerful enough to generate images. I need at least 10 minutes to generate a 512x512 image with good quality.</p>
+<h2 id="zoom-in-on-faces">Zoom in on Faces</h2>
+<p>I&rsquo;ve started to work on a feature that automatically detects faces in a picture and applies a zoom-in effect on the main face. It would add more life to my videos.</p>
+<p>There&rsquo;s a neat Python package that detects a face and saves it into a database with the name of that person! Of course, it needs some manual work to fill that database.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>Thanks to this automation, I can generate many videos in a very short time. I&rsquo;m pretty sure I&rsquo;m saving hours of work. There&rsquo;s no need to manually synchronize audio with images, improve audio quality, or download pictures and videos with third-party apps.</p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://clementbeal.github.io/" >
+    &copy;  Clement Beal 2024 
+  </a>
+    <div>
+<div class="ananke-socials">
+  
+    
+    <a href="https://twitter.com/clementbdev" target="_blank" rel="noopener" class="twitter ananke-social-link link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Twitter link" aria-label="follow on Twitter——Opens in a new window">
+      
+        <span class="icon"><svg style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;"/></svg>
+</span>
+      
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;"/>
+</svg>
+</span></a>
+  
+    
+    <a href="https://github.com/ClementBeal/" target="_blank" rel="noopener" class="github ananke-social-link link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="GitHub link" aria-label="follow on GitHub——Opens in a new window">
+      
+        <span class="icon"><svg style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+</span>
+      
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;"/>
+</svg>
+</span></a>
+  
+</div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>
