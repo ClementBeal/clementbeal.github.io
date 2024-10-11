@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Write An Application With Getx | Clement Beal</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="I wrote an article where I analyzed the source code of GetX. I found many things for which I wouldn&rsquo;t normally use GetX in any of my projects.
+But, in my Reddit post, some people said I was wrong; they were more productive and delivering faster, etc. They argued that because I haven&rsquo;t used it, I can&rsquo;t judge, and my opinion is useless.
+That&rsquo;s why I&rsquo;m going to write a small project with version ^5.0.0-release-candidate-9.2.1.">
+    <meta name="generator" content="Hugo 0.134.2">
+    
+    
+    
+    
+      <meta name="robots" content="index, follow">
+    
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.539a50bc62cb75ca09decd6fb5f8e37b900a0886a741aedf795f8518f43d01da.css" >
+
+
+
+    
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="https://clementbeal.github.io/post/write-a-getx-application/">
+    
+
+    <meta property="og:url" content="https://clementbeal.github.io/post/write-a-getx-application/">
+  <meta property="og:site_name" content="Clement Beal">
+  <meta property="og:title" content="Write An Application With Getx">
+  <meta property="og:description" content="I wrote an article where I analyzed the source code of GetX. I found many things for which I wouldn’t normally use GetX in any of my projects.
+But, in my Reddit post, some people said I was wrong; they were more productive and delivering faster, etc. They argued that because I haven’t used it, I can’t judge, and my opinion is useless.
+That’s why I’m going to write a small project with version ^5.0.0-release-candidate-9.2.1.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2024-10-10T23:20:21-01:00">
+    <meta property="article:modified_time" content="2024-10-10T23:20:21-01:00">
+
+  <meta itemprop="name" content="Write An Application With Getx">
+  <meta itemprop="description" content="I wrote an article where I analyzed the source code of GetX. I found many things for which I wouldn’t normally use GetX in any of my projects.
+But, in my Reddit post, some people said I was wrong; they were more productive and delivering faster, etc. They argued that because I haven’t used it, I can’t judge, and my opinion is useless.
+That’s why I’m going to write a small project with version ^5.0.0-release-candidate-9.2.1.">
+  <meta itemprop="datePublished" content="2024-10-10T23:20:21-01:00">
+  <meta itemprop="dateModified" content="2024-10-10T23:20:21-01:00">
+  <meta itemprop="wordCount" content="2335">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Write An Application With Getx">
+  <meta name="twitter:description" content="I wrote an article where I analyzed the source code of GetX. I found many things for which I wouldn’t normally use GetX in any of my projects.
+But, in my Reddit post, some people said I was wrong; they were more productive and delivering faster, etc. They argued that because I haven’t used it, I can’t judge, and my opinion is useless.
+That’s why I’m going to write a small project with version ^5.0.0-release-candidate-9.2.1.">
+
+      
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-HJHXZM0ZQ1"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-HJHXZM0ZQ1');
+        }
+      </script>
+    
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white production">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        Clement Beal
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/post/" title="Posts page">
+              Posts
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+<div class="ananke-socials">
+  
+    
+    <a href="https://twitter.com/clementbdev" target="_blank" rel="noopener" class="twitter ananke-social-link link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Twitter link" aria-label="follow on Twitter——Opens in a new window">
+      
+        <span class="icon"><svg style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;"/></svg>
+</span>
+      
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;"/>
+</svg>
+</span></a>
+  
+    
+    <a href="https://github.com/ClementBeal/" target="_blank" rel="noopener" class="github ananke-social-link link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="GitHub link" aria-label="follow on GitHub——Opens in a new window">
+      
+        <span class="icon"><svg style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+</span>
+      
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;"/>
+</svg>
+</span></a>
+  
+</div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside>
+      
+
+
+
+
+
+
+
+
+
+
+  <div id="sharing" class="mt3 ananke-socials">
+    
+      
+      <a href="https://twitter.com/intent/tweet?url=https://clementbeal.github.io/post/write-a-getx-application/&amp;text=Write%20An%20Application%20With%20Getx" class="ananke-social-link twitter no-underline" aria-label="share on Twitter">
+        
+        <span class="icon"> <svg style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;"/></svg>
+</span>
+        
+      </a>
+    
+  </div>
+
+
+      <h1 class="f1 athelas mt3 mb1">Write An Application With Getx</h1>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2024-10-10T23:20:21-01:00">October 10, 2024</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-100-l"><p>I wrote an article where I analyzed the source code of GetX. I found many things for which I wouldn&rsquo;t normally use GetX in any of my projects.</p>
+<p>But, in my Reddit post, some people said I was wrong; they were more productive and delivering faster, etc. They argued that because I haven&rsquo;t used it, I can&rsquo;t judge, and my opinion is useless.</p>
+<p>That&rsquo;s why I&rsquo;m going to write a small project with version <code>^5.0.0-release-candidate-9.2.1</code>.</p>
+<p>It&rsquo;s a release candidate, but as the package&rsquo;s author says <a href="https://github.com/jonataslaw/getx/issues/3173#issuecomment-2335176126">here</a>:</p>
+<blockquote>
+<p>To be honest with you, version 5 is way more stable than version 4.</p>
+</blockquote>
+<p>The app is very simple. It&rsquo;s a chat app with two pages:</p>
+<ul>
+<li>Home page: A list of conversations for the user.</li>
+<li>Conversation page: The page where we read messages and can write new ones.</li>
+</ul>
+<p>Of course, there&rsquo;s no backend. All the data is fake, and if there&rsquo;s an API call, it will be simulated with <code>await Future.delayed(Duration(...))</code>.</p>
+<p>Let&rsquo;s start!</p>
+<h1 id="the-main-pages">The Main Pages</h1>
+<p>When using the GetX package, you must use <code>GetMaterialApp()</code> or <code>GetCupertinoApp()</code>.  They&rsquo;re similar to the standard <code>MaterialApp()</code>, but include the tools GetX needs to function correctly.</p>
+<p>This is necessary for navigation. I tried using <code>MaterialApp()</code> instead, and it didn&rsquo;t work. The state management worked correctly with or without it, so it could probably be integrated into existing projects.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MainApp</span> <span style="color:#66d9ef">extends</span> StatelessWidget {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> MainApp({<span style="color:#66d9ef">super</span>.key});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">@</span>override
+</span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> GetMaterialApp(
+</span></span><span style="display:flex;"><span>      home: HomeScreen(),
+</span></span><span style="display:flex;"><span>      initialRoute: <span style="color:#e6db74">&#34;/&#34;</span>,
+</span></span><span style="display:flex;"><span>      getPages: [
+</span></span><span style="display:flex;"><span>        GetPage(
+</span></span><span style="display:flex;"><span>          name: <span style="color:#e6db74">&#34;/&#34;</span>,
+</span></span><span style="display:flex;"><span>          page: () <span style="color:#f92672">=&gt;</span> HomeScreen(),
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>        GetPage(
+</span></span><span style="display:flex;"><span>          name: <span style="color:#e6db74">&#34;/conversation&#34;</span>,
+</span></span><span style="display:flex;"><span>          page: () <span style="color:#f92672">=&gt;</span> ConversationScreen(),
+</span></span><span style="display:flex;"><span>          title: <span style="color:#e6db74">&#34;Lol&#34;</span>,
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>      ],
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>It&rsquo;s simple. GetX wraps the <code>MaterialApp</code> with a <code>GetRoot</code> and uses its own router implementation.</p>
+<p>So far, nothing special. People using <code>go_router</code> are used to this. I don&rsquo;t understand some parameters, such as <code>title</code>, <code>alignment</code>, or <code>preventDuplicateHandlingMode</code>. They aren&rsquo;t documented, so I won&rsquo;t try to use them.</p>
+<p>Now, the Home page:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HomeScreen</span> <span style="color:#66d9ef">extends</span> StatelessWidget {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> HomeScreen({<span style="color:#66d9ef">super</span>.key});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">@</span>override
+</span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> Scaffold(
+</span></span><span style="display:flex;"><span>      appBar: AppBar(
+</span></span><span style="display:flex;"><span>        title: <span style="color:#66d9ef">const</span> Text(<span style="color:#e6db74">&#34;Home&#34;</span>),
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>      body: <span style="color:#66d9ef">const</span> ConversationList(),
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ConversationList</span> <span style="color:#66d9ef">extends</span> StatelessWidget {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> ConversationList({<span style="color:#66d9ef">super</span>.key});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">@</span>override
+</span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> ListView.builder(
+</span></span><span style="display:flex;"><span>      itemCount: <span style="color:#ae81ff">100</span>, <span style="color:#75715e">// Added itemCount for a finite list (adjust as needed)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      itemBuilder: (context, index) <span style="color:#f92672">=&gt;</span> ListTile(
+</span></span><span style="display:flex;"><span>        title: Text(<span style="color:#e6db74">&#34;Conversation </span><span style="color:#e6db74">${</span>index <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>),
+</span></span><span style="display:flex;"><span>        leading: CircleAvatar(
+</span></span><span style="display:flex;"><span>          backgroundColor: Colors.primaries[Random().nextInt(Colors.primaries.length)], <span style="color:#75715e">// Use Random() instead of random
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        ),
+</span></span><span style="display:flex;"><span>        onTap: () {
+</span></span><span style="display:flex;"><span>          Get.toNamed(<span style="color:#e6db74">&#34;/conversation&#34;</span>);
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>It generates a list of conversations.  When tapping one, it navigates to the <code>/conversation</code> route.</p>
+<p>The navigation API is simple and similar to the <code>Navigator</code> API. It&rsquo;s not significantly different from other popular navigation solutions, except that it doesn&rsquo;t use the context.</p>
+<p>In my opinion, it&rsquo;s not more or less convenient than <code>go_router</code>.  It requires a similar amount of code, but I don&rsquo;t know if GetX supports <strong>deep linking</strong>. This is a crucial feature for many apps.  Usually, after signing in, users receive an email with a URL.  Tapping it should open the app and automatically validate their code.</p>
+<p>This would be a significant problem for many apps if they lacked this feature. They would have to use <code>go_router</code>, requiring the standard <code>MaterialApp</code>. This means completely rewriting the app, changing the state management, and everything related to GetX.  A potential (though untested) quick fix might be:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span>GetMaterialApp(
+</span></span><span style="display:flex;"><span>  home: MaterialApp.router(), <span style="color:#75715e">//This is likely incorrect and won&#39;t work as intended.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>)
+</span></span></code></pre></div><p>After checking the repo&rsquo;s issues, it seems deep linking is possible, so that&rsquo;s not a problem.</p>
+<p>The second page is the conversation page. It will simulate an API call and generate random messages. At the bottom, there will be a text field and a button to add messages to the list.</p>
+<h2 id="creating-the-chat">Creating the Chat</h2>
+<p>Let&rsquo;s first create the state!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ConversationMessage</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">String</span> text;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">bool</span> isLeft;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  ConversationMessage(<span style="color:#66d9ef">this</span>.text, <span style="color:#66d9ef">this</span>.isLeft);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ConversationController</span> <span style="color:#66d9ef">extends</span> GetxController {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> messages <span style="color:#f92672">=</span> <span style="color:#f92672">&lt;</span>ConversationMessage<span style="color:#f92672">&gt;</span>[].obs;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> currentState <span style="color:#f92672">=</span> Rx<span style="color:#f92672">&lt;</span>ConversationState<span style="color:#f92672">&gt;</span>(ConversationState.loading);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">@</span>override
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">void</span> onInit() {
+</span></span><span style="display:flex;"><span>    loadMessages();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">super</span>.onInit();
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  Future<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">void</span><span style="color:#f92672">&gt;</span> loadMessages() <span style="color:#66d9ef">async</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Simulate an API call
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">await</span> Future.delayed(<span style="color:#66d9ef">const</span> Duration(milliseconds: <span style="color:#ae81ff">1000</span>));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    messages.value <span style="color:#f92672">=</span> List.generate(<span style="color:#ae81ff">20</span>, (i) <span style="color:#f92672">=&gt;</span> ConversationMessage(
+</span></span><span style="display:flex;"><span>          faker.lorem.sentences(<span style="color:#ae81ff">4</span>).join(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>),
+</span></span><span style="display:flex;"><span>          Random().nextBool(), <span style="color:#75715e">// Use Random() instead of random
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        ));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    currentState.value <span style="color:#f92672">=</span> ConversationState.loaded;
+</span></span><span style="display:flex;"><span>    update();
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The <code>GetXController</code> contains the state.  You define all necessary variables; they can be ints, strings, lists, maps, etc.</p>
+<p>I have a method to generate a list of messages.  The messages are stored in <code>messages</code>, an <code>RxList</code>. It automatically updates the state and triggers rebuilds.  There&rsquo;s also the <code>update()</code> function, which also updates the state.</p>
+<p>It&rsquo;s unclear which to use. It seems that if I use <code>update()</code>, I don&rsquo;t need <code>.obs</code> or <code>RxList</code>. I&rsquo;ll investigate the best approach later.</p>
+<p>Now, to link the controller/state to the widget, we use a binding.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ConversationBinding</span> <span style="color:#66d9ef">extends</span> Bindings { <span style="color:#75715e">// Corrected to Bindings
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#960050;background-color:#1e0010">@</span>override
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">void</span> dependencies() {
+</span></span><span style="display:flex;"><span>    Get.lazyPut<span style="color:#f92672">&lt;</span>ConversationController<span style="color:#f92672">&gt;</span>(() <span style="color:#f92672">=&gt;</span> ConversationController());
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>I don&rsquo;t know why we have to do this, but it&rsquo;s in the documentation and examples. If it works, it works; I can figure it out later.</p>
+<p>In my state, I want to know if I&rsquo;m loading, encountering an error, or if it&rsquo;s loaded. I can&rsquo;t define a separate state class for each state like in BLoC. We have one controller, and it seems we can&rsquo;t replace it. So I&rsquo;ll use an enum:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span>enum ConversationState {
+</span></span><span style="display:flex;"><span>  loading,
+</span></span><span style="display:flex;"><span>  error,
+</span></span><span style="display:flex;"><span>  loaded
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>And</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ConversationController</span> <span style="color:#66d9ef">extends</span> GetxController {
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">final</span> currentState <span style="color:#f92672">=</span> Rx<span style="color:#f92672">&lt;</span>ConversationState<span style="color:#f92672">&gt;</span>(ConversationState.loading);
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><p>The other Rx shortcuts don&rsquo;t work with enums, so I have to use <code>Rx&lt;&gt;()</code>.</p>
+<p>Okay, now we can write the page.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ConversationScreen</span> <span style="color:#66d9ef">extends</span> StatelessWidget {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> ConversationScreen({<span style="color:#66d9ef">super</span>.key});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">@</span>override
+</span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> Scaffold(
+</span></span><span style="display:flex;"><span>      appBar: AppBar(title: <span style="color:#66d9ef">const</span> Text(<span style="color:#e6db74">&#34;Conversation&#34;</span>)),
+</span></span><span style="display:flex;"><span>      body: GetBuilder<span style="color:#f92672">&lt;</span>ConversationController<span style="color:#f92672">&gt;</span>( <span style="color:#75715e">//Use GetBuilder for simpler scenarios
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        builder: (controller) {
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">switch</span> (controller.currentState.value) {
+</span></span><span style="display:flex;"><span>            ConversationState.loading <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">const</span> Center(child: CircularProgressIndicator()),
+</span></span><span style="display:flex;"><span>            ConversationState.error <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">const</span> Text(<span style="color:#e6db74">&#34;Error&#34;</span>),
+</span></span><span style="display:flex;"><span>            ConversationState.loaded <span style="color:#f92672">=&gt;</span> ChatInterface(messages: controller.messages),
+</span></span><span style="display:flex;"><span>          };
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>      ),
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The body uses a <code>GetBuilder</code> widget. It finds the controller and passes it to the builder. The builder extracts the value and passes it to a switch that returns the correct widget.</p>
+<p>At this step, I was a bit lost. The documentation says we can use <code>GetX&lt;&gt;()</code> or <code>Obx()</code>. <code>GetBuilder</code> is simpler and often preferred for this case. <code>GetX&lt;&gt;()</code> is better if you need access to the controller in the builder, while <code>Obx()</code> is only useful for observing a single reactive variable. Using <code>GetBuilder</code> is the better practice in this context.  Passing a new <code>ConversationController()</code> to <code>init</code> in <code>GetX</code> is generally inefficient, as you pointed out.  Using <code>Get.put</code> or <code>Get.find</code> combined with <code>GetBuilder</code> or <code>Obx</code> is often the better approach for managing controllers in GetX.</p>
+<p>There&rsquo;s another way to pass a controller using the binding written earlier.  We pass it to the route defined at the start like this.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span>... other routes
+</span></span><span style="display:flex;"><span>GetPage(
+</span></span><span style="display:flex;"><span>  name: <span style="color:#e6db74">&#34;/conversation&#34;</span>,
+</span></span><span style="display:flex;"><span>  page: () <span style="color:#f92672">=&gt;</span> ConversationScreen(),
+</span></span><span style="display:flex;"><span>  binding: ConversationBinding(),
+</span></span><span style="display:flex;"><span>),
+</span></span><span style="display:flex;"><span>... other routes
+</span></span></code></pre></div><p>I still don&rsquo;t understand the magic, but it works. I can remove the <code>init: Controller()</code>.</p>
+<p>So far, I&rsquo;m really confused by the state management. There are many different widgets or classes that seem to do the same thing. There are <a href="https://github.com/jonataslaw/getx/blob/master/documentation/en_US/state_management.md#getbuilder-vs-getx-vs-obx-vs-mixinbuilder">four different widgets</a> to consume the controller.  Some seem more memory-efficient than others, but I don&rsquo;t think it&rsquo;s very relevant. At most, we save a few kilobytes. If the state is heavy, it&rsquo;s because it contains a lot of data, so the memory consumption of the state class itself is negligible.</p>
+<p>Let&rsquo;s continue. I created the chat interface:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ChatInterface</span> <span style="color:#66d9ef">extends</span> StatelessWidget {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> RxList<span style="color:#f92672">&lt;</span>ConversationMessage<span style="color:#f92672">&gt;</span> messages;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> ChatInterface({<span style="color:#66d9ef">super</span>.key, <span style="color:#66d9ef">required</span> <span style="color:#66d9ef">this</span>.messages});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">@</span>override
+</span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> Column(
+</span></span><span style="display:flex;"><span>      children: [
+</span></span><span style="display:flex;"><span>        Expanded(
+</span></span><span style="display:flex;"><span>          child: MessageList(messages: messages),
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>        MessageBarInput(messages: messages),
+</span></span><span style="display:flex;"><span>      ],
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Good practice: We split into smaller widgets. The message list first:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MessageList</span> <span style="color:#66d9ef">extends</span> StatelessWidget {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> RxList<span style="color:#f92672">&lt;</span>ConversationMessage<span style="color:#f92672">&gt;</span> messages;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> MessageList({<span style="color:#66d9ef">super</span>.key, <span style="color:#66d9ef">required</span> <span style="color:#66d9ef">this</span>.messages});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">@</span>override
+</span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> Obx(() { <span style="color:#75715e">// Use Obx for better performance here.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#66d9ef">final</span> messagesList <span style="color:#f92672">=</span> messages.value; <span style="color:#75715e">// Access the value directly.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">return</span> ListView.separated(
+</span></span><span style="display:flex;"><span>        reverse: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        itemCount: messagesList.length,
+</span></span><span style="display:flex;"><span>        separatorBuilder: (context, index) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">const</span> SizedBox(height: <span style="color:#ae81ff">8</span>),
+</span></span><span style="display:flex;"><span>        itemBuilder: (context, index) {
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">final</span> message <span style="color:#f92672">=</span> messagesList[index];
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">final</span> alignment <span style="color:#f92672">=</span> message.isLeft <span style="color:#f92672">?</span> Alignment.centerLeft <span style="color:#f92672">:</span> Alignment.centerRight;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">return</span> Align(
+</span></span><span style="display:flex;"><span>            alignment: alignment,
+</span></span><span style="display:flex;"><span>            child: LayoutBuilder( <span style="color:#75715e">//Consider using a more efficient approach for message bubbles
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>              builder: (context, constraints) <span style="color:#f92672">=&gt;</span> ConstrainedBox(
+</span></span><span style="display:flex;"><span>                constraints: BoxConstraints(maxWidth: constraints.maxWidth <span style="color:#f92672">*</span> <span style="color:#ae81ff">0.7</span>), <span style="color:#75715e">// Example constraint
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                child: DecoratedBox(
+</span></span><span style="display:flex;"><span>                  decoration: BoxDecoration(
+</span></span><span style="display:flex;"><span>                    color: message.isLeft <span style="color:#f92672">?</span> Colors.grey[<span style="color:#ae81ff">300</span>] <span style="color:#f92672">:</span> Colors.blue[<span style="color:#ae81ff">100</span>],
+</span></span><span style="display:flex;"><span>                    borderRadius: BorderRadius.circular(<span style="color:#ae81ff">10</span>),
+</span></span><span style="display:flex;"><span>                  ),
+</span></span><span style="display:flex;"><span>                  child: Padding(
+</span></span><span style="display:flex;"><span>                    padding: <span style="color:#66d9ef">const</span> EdgeInsets.all(<span style="color:#ae81ff">8.0</span>),
+</span></span><span style="display:flex;"><span>                    child: Text(message.text),
+</span></span><span style="display:flex;"><span>                  ),
+</span></span><span style="display:flex;"><span>                ),
+</span></span><span style="display:flex;"><span>              ),
+</span></span><span style="display:flex;"><span>            ),
+</span></span><span style="display:flex;"><span>          );
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>      );
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>We use <code>Obx()</code> to rebuild only when the <code>messages</code> list changes.  This is more efficient than <code>GetX</code>.</p>
+<p>Last step, the text field, and the UI is done.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MessageBarInput</span> <span style="color:#66d9ef">extends</span> StatelessWidget { <span style="color:#75715e">// Changed to StatelessWidget
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">final</span> RxList<span style="color:#f92672">&lt;</span>ConversationMessage<span style="color:#f92672">&gt;</span> messages;
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> TextEditingController textController <span style="color:#f92672">=</span> TextEditingController();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  MessageBarInput({<span style="color:#66d9ef">super</span>.key, <span style="color:#66d9ef">required</span> <span style="color:#66d9ef">this</span>.messages});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">@</span>override
+</span></span><span style="display:flex;"><span>  Widget build(BuildContext context) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> Row(
+</span></span><span style="display:flex;"><span>      children: [
+</span></span><span style="display:flex;"><span>        Expanded(
+</span></span><span style="display:flex;"><span>          child: Padding(
+</span></span><span style="display:flex;"><span>            padding: <span style="color:#66d9ef">const</span> EdgeInsets.symmetric(horizontal: <span style="color:#ae81ff">12</span>, vertical: <span style="color:#ae81ff">8</span>),
+</span></span><span style="display:flex;"><span>            child: TextField(
+</span></span><span style="display:flex;"><span>              controller: textController,
+</span></span><span style="display:flex;"><span>              decoration: <span style="color:#66d9ef">const</span> InputDecoration(
+</span></span><span style="display:flex;"><span>                border: OutlineInputBorder(),
+</span></span><span style="display:flex;"><span>              ),
+</span></span><span style="display:flex;"><span>            ),
+</span></span><span style="display:flex;"><span>          ),
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>        IconButton(
+</span></span><span style="display:flex;"><span>          onPressed: () {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (textController.text.isNotEmpty) {
+</span></span><span style="display:flex;"><span>              <span style="color:#66d9ef">final</span> newMessage <span style="color:#f92672">=</span> ConversationMessage(textController.text, <span style="color:#66d9ef">false</span>);
+</span></span><span style="display:flex;"><span>              messages.add(newMessage);
+</span></span><span style="display:flex;"><span>              textController.clear();
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>          },
+</span></span><span style="display:flex;"><span>          icon: <span style="color:#66d9ef">const</span> Icon(Icons.send),
+</span></span><span style="display:flex;"><span>        ),
+</span></span><span style="display:flex;"><span>      ],
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">@</span>override
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">void</span> dispose() {
+</span></span><span style="display:flex;"><span>    textController.dispose();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">super</span>.dispose();
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>I&rsquo;ve made <code>MessageBarInput</code> a <code>StatelessWidget</code> and directly access and manipulate the <code>messages</code> RxList.  Remember to dispose of the <code>textController</code> in the parent widget where <code>MessageBarInput</code> is used, if it&rsquo;s a StatefulWidget.  I&rsquo;ve added a null check to prevent adding empty messages.  This version is more efficient and cleaner.  Also, I added some basic styling to the message bubbles. Remember to import <code>dart:math</code> for the <code>Random()</code> object.</p>
+<p>It&rsquo;s a stateful widget because we have a <code>TextEditingController</code>, and we must dispose of it to avoid memory leaks. When we press the button, I create a new message that I add to the controller.</p>
+<p>However, it doesn&rsquo;t work as expected.  The issue is that you&rsquo;re modifying the list directly, which doesn&rsquo;t trigger a rebuild in GetX. You have to create a new list to update the reference.  This is because GetX observes the reference, not the list&rsquo;s contents. To address this, I modified the <code>ConversationController</code> as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> addMessage(ConversationMessage newMessage) {
+</span></span><span style="display:flex;"><span>  messages.value <span style="color:#f92672">=</span> [...messages, newMessage]; <span style="color:#75715e">//More efficient way to add a new message
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><p>This creates a new list containing the existing messages and the new message, effectively updating the reference.  This approach is more efficient than creating a completely new list from scratch.</p>
+<p>And that&rsquo;s it. I have a functional app.</p>
+<h2 id="my-thoughts">My Thoughts</h2>
+<p>Building an app with GetX wasn&rsquo;t difficult, but it was very confusing. There are many ways to do the same thing, and the documentation is unclear about the differences.  It mentions that some solutions use less RAM than others, but without benchmarks, this claim lacks value.</p>
+<p>The biggest weakness of this library is the documentation.  Almost nothing is documented. I&rsquo;m not talking about a comprehensive README, but about API documentation. You have to guess and hope your guess is correct. Deep linking is a good example; I believe it&rsquo;s possible because people say so, but how can I be sure? GetX uses so many of its own components that it&rsquo;s difficult to understand what&rsquo;s happening under the hood.</p>
+<p>I haven&rsquo;t shown it here, but the package encourages the use of <code>GetView</code>. It&rsquo;s a <code>StatelessWidget</code> with a controller (which, if I wasn&rsquo;t clear, is the state). Why use it instead of a normal <code>StatefulWidget</code>? It doesn&rsquo;t use less memory, and I trust the Flutter team more to provide efficient stateful widgets.</p>
+<p>I think the API could be refactored. Some methods are public when they should probably be private.</p>
+<p>Also, I didn&rsquo;t feel faster or more productive. People say they write less boilerplate code, but I don&rsquo;t think so. The state management is very similar to the <code>Cubit</code> in the <code>flutter_bloc</code> library. I wrote roughly the same amount of code; however, with a Cubit, I have more freedom with a family of states.</p>
+<h1 id="little-benchmark">Little Benchmark</h1>
+<p>I&rsquo;ll quickly compare it with <code>flutter_bloc</code> to compare the speed and RAM efficiency of GetX.</p>
+<ul>
+<li><code>flutter_bloc</code>: ^8.1.6</li>
+<li><code>get</code>: ^5.0.0-release-candidate-9.2.1</li>
+</ul>
+<p>Both will be run with Flutter <strong>3.24.3</strong>, on a Linux build, and in profile mode.</p>
+<p>I only compare the state management here, nothing else.</p>
+<h3 id="getx">GetX</h3>
+<p><strong>RAM:</strong> 6,978,288 B (~6.7 MB)<br>
+<strong>Rebuild after update:</strong> 8.1909 ms</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Class</th>
+          <th style="text-align: left">Library</th>
+          <th style="text-align: left">Total Instances</th>
+          <th style="text-align: left">Total Size</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">BindElement</td>
+          <td style="text-align: left">package:get/get_state_manager/src/simple/get_state.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">208</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Binder</td>
+          <td style="text-align: left">package:get/get_state_manager/src/simple/get_state.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">144</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">GetBuilder</td>
+          <td style="text-align: left">package:get/get_state_manager/src/simple/get_state.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">128</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">_InstanceBuilderFactory</td>
+          <td style="text-align: left">package:get/get_instance/src/extension_instance.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">96</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">CounterController</td>
+          <td style="text-align: left">package:benchmark_getx/main.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">48</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">RouterReportManager</td>
+          <td style="text-align: left">package:get/get_navigation/src/router_report.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">32</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">_GetImpl</td>
+          <td style="text-align: left">package:get/get_core/src/get_main.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">32</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">HomePage</td>
+          <td style="text-align: left">package:benchmark_getx/main.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">32</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">MainApp</td>
+          <td style="text-align: left">package:benchmark_getx/main.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">32</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SmartManagement</td>
+          <td style="text-align: left">package:get/get_core/src/smart_management.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">32</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Notifier</td>
+          <td style="text-align: left">package:get/get_state_manager/src/simple/list_notifier.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">16</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="flutter-bloc">Flutter Bloc</h3>
+<p><strong>RAM:</strong> 6,725,280 B (~6.4 MB)<br>
+<strong>Rebuild after update:</strong> 9.0429 ms</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Class</th>
+          <th style="text-align: left">Library</th>
+          <th style="text-align: left">Total Instances</th>
+          <th style="text-align: left">Total Size</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">_InheritedProviderScopeElement</td>
+          <td style="text-align: left">package:provider/src/provider.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">176</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SingleChildStatefulElement</td>
+          <td style="text-align: left">package:nested/nested.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">144</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">_InheritedProviderElement</td>
+          <td style="text-align: left">package:provider/src/provider.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">144</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SingleChildStatelessElement</td>
+          <td style="text-align: left">package:nested/nested.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">128</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">_CreateInheritedProviderState</td>
+          <td style="text-align: left">package:provider/src/provider.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">64</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">_CreateInheritedProvider</td>
+          <td style="text-align: left">package:provider/src/provider.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">64</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">BlocListener</td>
+          <td style="text-align: left">package:flutter_bloc/src/bloc_listener.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">64</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">BlocBuilder</td>
+          <td style="text-align: left">package:flutter_bloc/src/bloc_builder.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">64</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">InheritedProvider</td>
+          <td style="text-align: left">package:provider/src/provider.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">64</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">BlocProvider</td>
+          <td style="text-align: left">package:flutter_bloc/src/bloc_provider.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">64</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">_Dependency</td>
+          <td style="text-align: left">package:provider/src/provider.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">48</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">_BlocListenerBaseState</td>
+          <td style="text-align: left">package:flutter_bloc/src/bloc_listener.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">48</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">_BlocBuilderBaseState</td>
+          <td style="text-align: left">package:flutter_bloc/src/bloc_builder.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">48</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">_InheritedProviderScope</td>
+          <td style="text-align: left">package:provider/src/provider.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">48</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">CounterCubit</td>
+          <td style="text-align: left">package:benchmark_bloc/main.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">48</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">HomePage</td>
+          <td style="text-align: left">package:benchmark_bloc/main.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">32</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">MainApp</td>
+          <td style="text-align: left">package:benchmark_bloc/main.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">32</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">_DefaultBlocObserver</td>
+          <td style="text-align: left">package:bloc/src/bloc.dart</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left">16</td>
+      </tr>
+  </tbody>
+</table>
+<p>This very short benchmark shows that GetX uses slightly more memory but is faster in terms of rebuild time.</p>
+<p>Does it even matter? The time to trigger a rebuild is already very fast for both. They are far faster than typical UI update rates (120 Hz), and the memory consumption difference is negligible.</p>
+<p>This benchmark is, in my opinion, mostly useless. At best, it shows that GetX&rsquo;s performance claims might need further investigation.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>Coding with GetX isn&rsquo;t drastically different from other packages.  The API is similar to <code>go_router</code> and <code>flutter_bloc</code>&rsquo;s Cubit.  The documentation needs significant improvement; it&rsquo;s neither clear nor straightforward.</p>
+<p>You can likely build complex applications with GetX.  The fact that it hides the use of context might be a disadvantage for some developers.  However, if you deliver your product, maintain it, and add new features, then it might be a viable solution for your needs.</p>
+<p>I still wouldn&rsquo;t recommend using it.  As I mentioned in my previous post, the core of the library doesn&rsquo;t seem to be as well-designed or well-tested as other alternatives.  We usually choose well-maintained packages, especially when the entire application relies on it.</p>
+<p>Ultimately, the choice is yours.</p>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://clementbeal.github.io/" >
+    &copy;  Clement Beal 2024 
+  </a>
+    <div>
+<div class="ananke-socials">
+  
+    
+    <a href="https://twitter.com/clementbdev" target="_blank" rel="noopener" class="twitter ananke-social-link link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Twitter link" aria-label="follow on Twitter——Opens in a new window">
+      
+        <span class="icon"><svg style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;"/></svg>
+</span>
+      
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;"/>
+</svg>
+</span></a>
+  
+    
+    <a href="https://github.com/ClementBeal/" target="_blank" rel="noopener" class="github ananke-social-link link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="GitHub link" aria-label="follow on GitHub——Opens in a new window">
+      
+        <span class="icon"><svg style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+</span>
+      
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;"/>
+</svg>
+</span></a>
+  
+</div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

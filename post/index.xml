@@ -6,8 +6,15 @@
     <description>Recent content in Posts on Clement Beal</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 09 Oct 2024 02:59:23 -0300</lastBuildDate>
+    <lastBuildDate>Thu, 10 Oct 2024 23:20:21 -0100</lastBuildDate>
     <atom:link href="https://clementbeal.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Write An Application With Getx</title>
+      <link>https://clementbeal.github.io/post/write-a-getx-application/</link>
+      <pubDate>Thu, 10 Oct 2024 23:20:21 -0100</pubDate>
+      <guid>https://clementbeal.github.io/post/write-a-getx-application/</guid>
+      <description>&lt;p&gt;I wrote an article where I analyzed the source code of GetX. I found many things for which I wouldn&amp;rsquo;t normally use GetX in any of my projects.&lt;/p&gt;&#xA;&lt;p&gt;But, in my Reddit post, some people said I was wrong; they were more productive and delivering faster, etc. They argued that because I haven&amp;rsquo;t used it, I can&amp;rsquo;t judge, and my opinion is useless.&lt;/p&gt;&#xA;&lt;p&gt;That&amp;rsquo;s why I&amp;rsquo;m going to write a small project with version &lt;code&gt;^5.0.0-release-candidate-9.2.1&lt;/code&gt;.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Humble Opinion About Getx</title>
       <link>https://clementbeal.github.io/post/humble-opinion-about-getx/</link>

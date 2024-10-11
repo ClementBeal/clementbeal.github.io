@@ -2,17 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://clementbeal.github.io/post/humble-opinion-about-getx/</loc>
-    <lastmod>2024-10-09T02:59:23-03:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
     <loc>https://clementbeal.github.io/</loc>
-    <lastmod>2024-10-09T02:59:23-03:00</lastmod>
+    <lastmod>2024-10-10T23:20:21-01:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
     <loc>https://clementbeal.github.io/post/</loc>
+    <lastmod>2024-10-10T23:20:21-01:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://clementbeal.github.io/post/write-a-getx-application/</loc>
+    <lastmod>2024-10-10T23:20:21-01:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://clementbeal.github.io/post/humble-opinion-about-getx/</loc>
     <lastmod>2024-10-09T02:59:23-03:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
