@@ -6,6 +6,21 @@
     <description>Recent content in Categories on Clement Beal</description>
     <generator>Hugo</generator>
     <language>en</language>
+    <lastBuildDate>Sun, 13 Oct 2024 23:21:04 +0000</lastBuildDate>
     <atom:link href="https://clementbeal.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Dart</title>
+      <link>https://clementbeal.github.io/categories/dart/</link>
+      <pubDate>Sun, 13 Oct 2024 23:21:04 +0000</pubDate>
+      <guid>https://clementbeal.github.io/categories/dart/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Sqlite</title>
+      <link>https://clementbeal.github.io/categories/sqlite/</link>
+      <pubDate>Sun, 13 Oct 2024 23:21:04 +0000</pubDate>
+      <guid>https://clementbeal.github.io/categories/sqlite/</guid>
+      <description></description>
+    </item>
   </channel>
 </rss>

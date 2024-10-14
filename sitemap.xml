@@ -2,13 +2,63 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://clementbeal.github.io/post/a/add-spatial-capabilities-in-sqlite/</loc>
+    <lastmod>2024-10-13T23:21:04+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://clementbeal.github.io/categories/</loc>
+    <lastmod>2024-10-13T23:21:04+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://clementbeal.github.io/tags/compile/</loc>
+    <lastmod>2024-10-13T23:21:04+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://clementbeal.github.io/tags/dart/</loc>
+    <lastmod>2024-10-13T23:21:04+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://clementbeal.github.io/categories/dart/</loc>
+    <lastmod>2024-10-13T23:21:04+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://clementbeal.github.io/tags/flutter/</loc>
+    <lastmod>2024-10-13T23:21:04+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
     <loc>https://clementbeal.github.io/</loc>
-    <lastmod>2024-10-10T23:20:21-01:00</lastmod>
+    <lastmod>2024-10-13T23:21:04+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
     <loc>https://clementbeal.github.io/post/</loc>
-    <lastmod>2024-10-10T23:20:21-01:00</lastmod>
+    <lastmod>2024-10-13T23:21:04+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://clementbeal.github.io/tags/spatialite/</loc>
+    <lastmod>2024-10-13T23:21:04+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://clementbeal.github.io/tags/sqlite/</loc>
+    <lastmod>2024-10-13T23:21:04+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://clementbeal.github.io/categories/sqlite/</loc>
+    <lastmod>2024-10-13T23:21:04+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url><url>
+    <loc>https://clementbeal.github.io/tags/</loc>
+    <lastmod>2024-10-13T23:21:04+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url><url>
@@ -39,14 +89,6 @@
   </url><url>
     <loc>https://clementbeal.github.io/post/optimize-a-flutter-web-build/</loc>
     <lastmod>2024-05-18T21:14:16+00:00</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://clementbeal.github.io/categories/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url><url>
-    <loc>https://clementbeal.github.io/tags/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>

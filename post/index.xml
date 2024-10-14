@@ -6,8 +6,15 @@
     <description>Recent content in Posts on Clement Beal</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 10 Oct 2024 23:20:21 -0100</lastBuildDate>
+    <lastBuildDate>Sun, 13 Oct 2024 23:21:04 +0000</lastBuildDate>
     <atom:link href="https://clementbeal.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Add Spatial Capabilities in SQLite</title>
+      <link>https://clementbeal.github.io/post/a/add-spatial-capabilities-in-sqlite/</link>
+      <pubDate>Sun, 13 Oct 2024 23:21:04 +0000</pubDate>
+      <guid>https://clementbeal.github.io/post/a/add-spatial-capabilities-in-sqlite/</guid>
+      <description>&lt;p&gt;A few days ago, I wanted to add spatial features to my backend. I wanted to store the GPS positions of users and return the closest people to them (like a dating app).&lt;/p&gt;&#xA;&lt;p&gt;Usually, people use PostgreSQL and PostGIS, an extension that enables spatial capabilities, but that&amp;rsquo;s not something I want. My backend is using SQLite because I&amp;rsquo;m not expecting more than 10 users a day.&lt;/p&gt;&#xA;&lt;p&gt;Fortunately, there is an extension that we can use called &lt;a href=&#34;https://www.gaia-gis.it/fossil/libspatialite/home&#34;&gt;Spatialite&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Write An Application With Getx</title>
       <link>https://clementbeal.github.io/post/write-a-getx-application/</link>

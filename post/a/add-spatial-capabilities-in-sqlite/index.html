@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Add Spatial Capabilities in SQLite | Clement Beal</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="A few days ago, I wanted to add spatial features to my backend. I wanted to store the GPS positions of users and return the closest people to them (like a dating app).
+Usually, people use PostgreSQL and PostGIS, an extension that enables spatial capabilities, but that&rsquo;s not something I want. My backend is using SQLite because I&rsquo;m not expecting more than 10 users a day.
+Fortunately, there is an extension that we can use called Spatialite.">
+    <meta name="generator" content="Hugo 0.134.2">
+    
+    
+    
+    
+      <meta name="robots" content="index, follow">
+    
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.539a50bc62cb75ca09decd6fb5f8e37b900a0886a741aedf795f8518f43d01da.css" >
+
+
+
+    
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="https://clementbeal.github.io/post/a/add-spatial-capabilities-in-sqlite/">
+    
+
+    <meta property="og:url" content="https://clementbeal.github.io/post/a/add-spatial-capabilities-in-sqlite/">
+  <meta property="og:site_name" content="Clement Beal">
+  <meta property="og:title" content="Add Spatial Capabilities in SQLite">
+  <meta property="og:description" content="A few days ago, I wanted to add spatial features to my backend. I wanted to store the GPS positions of users and return the closest people to them (like a dating app).
+Usually, people use PostgreSQL and PostGIS, an extension that enables spatial capabilities, but that’s not something I want. My backend is using SQLite because I’m not expecting more than 10 users a day.
+Fortunately, there is an extension that we can use called Spatialite.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2024-10-13T23:21:04+00:00">
+    <meta property="article:modified_time" content="2024-10-13T23:21:04+00:00">
+    <meta property="article:tag" content="Sqlite">
+    <meta property="article:tag" content="Spatialite">
+    <meta property="article:tag" content="Dart">
+    <meta property="article:tag" content="Compile">
+    <meta property="article:tag" content="Flutter">
+
+  <meta itemprop="name" content="Add Spatial Capabilities in SQLite">
+  <meta itemprop="description" content="A few days ago, I wanted to add spatial features to my backend. I wanted to store the GPS positions of users and return the closest people to them (like a dating app).
+Usually, people use PostgreSQL and PostGIS, an extension that enables spatial capabilities, but that’s not something I want. My backend is using SQLite because I’m not expecting more than 10 users a day.
+Fortunately, there is an extension that we can use called Spatialite.">
+  <meta itemprop="datePublished" content="2024-10-13T23:21:04+00:00">
+  <meta itemprop="dateModified" content="2024-10-13T23:21:04+00:00">
+  <meta itemprop="wordCount" content="735">
+  <meta itemprop="keywords" content="Sqlite,Spatialite,Dart,Compile,Flutter">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Add Spatial Capabilities in SQLite">
+  <meta name="twitter:description" content="A few days ago, I wanted to add spatial features to my backend. I wanted to store the GPS positions of users and return the closest people to them (like a dating app).
+Usually, people use PostgreSQL and PostGIS, an extension that enables spatial capabilities, but that’s not something I want. My backend is using SQLite because I’m not expecting more than 10 users a day.
+Fortunately, there is an extension that we can use called Spatialite.">
+
+      
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-HJHXZM0ZQ1"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-HJHXZM0ZQ1');
+        }
+      </script>
+    
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white production">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        Clement Beal
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/post/" title="Posts page">
+              Posts
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+<div class="ananke-socials">
+  
+    
+    <a href="https://twitter.com/clementbdev" target="_blank" rel="noopener" class="twitter ananke-social-link link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Twitter link" aria-label="follow on Twitter——Opens in a new window">
+      
+        <span class="icon"><svg style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;"/></svg>
+</span>
+      
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;"/>
+</svg>
+</span></a>
+  
+    
+    <a href="https://github.com/ClementBeal/" target="_blank" rel="noopener" class="github ananke-social-link link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="GitHub link" aria-label="follow on GitHub——Opens in a new window">
+      
+        <span class="icon"><svg style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+</span>
+      
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;"/>
+</svg>
+</span></a>
+  
+</div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside>
+      
+
+
+
+
+
+
+
+
+
+
+  <div id="sharing" class="mt3 ananke-socials">
+    
+      
+      <a href="https://twitter.com/intent/tweet?url=https://clementbeal.github.io/post/a/add-spatial-capabilities-in-sqlite/&amp;text=Add%20Spatial%20Capabilities%20in%20SQLite" class="ananke-social-link twitter no-underline" aria-label="share on Twitter">
+        
+        <span class="icon"> <svg style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;"/></svg>
+</span>
+        
+      </a>
+    
+  </div>
+
+
+      <h1 class="f1 athelas mt3 mb1">Add Spatial Capabilities in SQLite</h1>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2024-10-13T23:21:04Z">October 13, 2024</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-100-l"><p>A few days ago, I wanted to add spatial features to my backend. I wanted to store the GPS positions of users and return the closest people to them (like a dating app).</p>
+<p>Usually, people use PostgreSQL and PostGIS, an extension that enables spatial capabilities, but that&rsquo;s not something I want. My backend is using SQLite because I&rsquo;m not expecting more than 10 users a day.</p>
+<p>Fortunately, there is an extension that we can use called <a href="https://www.gaia-gis.it/fossil/libspatialite/home">Spatialite</a>.</p>
+<blockquote>
+<p>This article is for Linux. It should work on Windows and macOS if you follow some special build steps.</p>
+</blockquote>
+<h1 id="building-the-extension">Building the Extension</h1>
+<p>First, we have to build the extension. The extension is not directly available as a shared library. To build it, go <a href="https://www.gaia-gis.it/fossil/libspatialite/home">here</a>, download the source code <em>libspatialite-5.1.0.tar.gz</em>, and decompress it.</p>
+<p>Alternatively, you can run this command:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget <span style="color:#e6db74">&#34;https://www.gaia-gis.it/gaia-sins/libspatialite-sources/libspatialite-5.1.0.tar.gz&#34;</span> -O libspatialite-5.1.0.tar.gz <span style="color:#f92672">&amp;&amp;</span> tar -xzvf libspatialite-5.1.0.tar.gz
+</span></span></code></pre></div><p>Then go inside the <em>libspatialite-5.1.0</em> directory. We are going to compile the extension, but for that, you may need to install some packages:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt install binutils libproj-dev gdal-bin
+</span></span></code></pre></div><p>Then:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>./configure --enable-freexl<span style="color:#f92672">=</span>no
+</span></span></code></pre></div><p>The flag <code>--enable-freexl=no</code> is used to exclude FreeXL. It&rsquo;s a tool to import data from Microsoft Excel format (.xls suffix). I don&rsquo;t think it&rsquo;s something we want, but feel free to adapt the script!</p>
+<p>Now we compile:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>make
+</span></span></code></pre></div><p>When it&rsquo;s done, you can find the library in <code>src/.libs/</code>. It&rsquo;s called <strong>mod_spatialite.so.8.1.0</strong>. Copy and paste it into your project folder.</p>
+<p>Now let&rsquo;s write some Dart!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">name</span>: <span style="color:#ae81ff">use_spatialite</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">description</span>: <span style="color:#ae81ff">Example of using Spatialite with SQLite in Dart.</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">environment</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">sdk</span>: <span style="color:#e6db74">&#39;&gt;=3.0.0 &lt;4.0.0&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">dependencies</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">sqlite3</span>: <span style="color:#ae81ff">^2.4.6</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;dart:ffi&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;dart:io&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:sqlite3/sqlite3.dart&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>DynamicLibrary loadSpatialiteExtension() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> libraryNextToScript <span style="color:#f92672">=</span> File(<span style="color:#e6db74">&#34;assets/mod_spatialite.so.8.1.0&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> DynamicLibrary.open(libraryNextToScript.path);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> main() {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> spatialiteLibrary <span style="color:#f92672">=</span> loadSpatialiteExtension();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  sqlite3.ensureExtensionLoaded(
+</span></span><span style="display:flex;"><span>    SqliteExtension.inLibrary(spatialiteLibrary, <span style="color:#e6db74">&#34;sqlite3_modspatialite_init&#34;</span>),
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> db <span style="color:#f92672">=</span> sqlite3.openInMemory();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The code opens the Spatialite dynamic library. Then it passes it to sqlite3 via the <code>ensureExtensionLoaded</code> method. The name is explicit: it loads the extension. Finally, we define the entry point of the extension with <code>sqlite3_modspatialite_init</code>.</p>
+<h2 id="its-not-working">It&rsquo;s Not Working?</h2>
+<p>If it&rsquo;s not working and there are no errors, the problem could be the SQLite3 library. Either it&rsquo;s too old or it hasn&rsquo;t been built to support extensions. To fix that, you also have to build SQLite.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget <span style="color:#e6db74">&#34;https://www.sqlite.org/2024/sqlite-autoconf-3460100.tar.gz&#34;</span> -O sqlite-autoconf.tar.gz <span style="color:#f92672">&amp;&amp;</span> tar -xzvf sqlite-autoconf.tar.gz
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>./configure
+</span></span><span style="display:flex;"><span>make
+</span></span></code></pre></div><p>More information <a href="https://www.sqlite.org/howtocompile.html">here</a>.</p>
+<h2 id="lets-play-with-it">Let&rsquo;s Play With It</h2>
+<p>Let&rsquo;s create a table and fill it with some data:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span>  db.execute(<span style="color:#e6db74">&#39;&#39;&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">CREATE TABLE users (
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    id INTEGER PRIMARY KEY AUTOINCREMENT,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    name TEXT NOT NULL,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    position POINT
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">);
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">INSERT INTO users (name, position) VALUES (&#39;Paris&#39;, GeomFromText(&#39;POINT(2.3522 48.8566)&#39;, 4326));
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">INSERT INTO users (name, position) VALUES (&#39;Marseille&#39;, GeomFromText(&#39;POINT(5.3698 43.2965)&#39;, 4326));
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">INSERT INTO users (name, position) VALUES (&#39;London&#39;, GeomFromText(&#39;POINT(-0.1278 51.5074)&#39;, 4326));
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">INSERT INTO users (name, position) VALUES (&#39;Berlin&#39;, GeomFromText(&#39;POINT(13.4050 52.5200)&#39;, 4326));
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">INSERT INTO users (name, position) VALUES (&#39;Rome&#39;, GeomFromText(&#39;POINT(12.4964 41.9028)&#39;, 4326));
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">INSERT INTO users (name, position) VALUES (&#39;Madrid&#39;, GeomFromText(&#39;POINT(-3.7038 40.4168)&#39;, 4326));
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">INSERT INTO users (name, position) VALUES (&#39;Barcelona&#39;, GeomFromText(&#39;POINT(2.1734 41.3851)&#39;, 4326));
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">INSERT INTO users (name, position) VALUES (&#39;Amsterdam&#39;, GeomFromText(&#39;POINT(4.9041 52.3676)&#39;, 4326));
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">INSERT INTO users (name, position) VALUES (&#39;Vienna&#39;, GeomFromText(&#39;POINT(16.3738 48.2082)&#39;, 4326));
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">INSERT INTO users (name, position) VALUES (&#39;Warsaw&#39;, GeomFromText(&#39;POINT(21.0122 52.2297)&#39;, 4326));
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">INSERT INTO users (name, position) VALUES (&#39;Dublin&#39;, GeomFromText(&#39;POINT(-6.2603 53.3498)&#39;, 4326));
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">INSERT INTO users (name, position) VALUES (&#39;Lisbon&#39;, GeomFromText(&#39;POINT(-9.1393 38.7223)&#39;, 4326));
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">INSERT INTO users (name, position) VALUES (&#39;Stockholm&#39;, GeomFromText(&#39;POINT(18.0686 59.3293)&#39;, 4326));
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">INSERT INTO users (name, position) VALUES (&#39;Athens&#39;, GeomFromText(&#39;POINT(23.7275 37.9838)&#39;, 4326));
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">INSERT INTO users (name, position) VALUES (&#39;Budapest&#39;, GeomFromText(&#39;POINT(19.0402 47.4979)&#39;, 4326));
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;&#39;&#39;</span>);
+</span></span></code></pre></div><p>It&rsquo;s a bunch of European cities with their GPS positions. The <code>position</code> column has the <code>POINT</code> type, meaning it will only accept geometries of type POINT (latitude, longitude).</p>
+<p>Now you can insert the following code:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> closestToParis <span style="color:#f92672">=</span> db.select(<span style="color:#e6db74">&#39;&#39;&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SELECT name, 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    ST_Distance(
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        position,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        GeomFromText(&#39;POINT(2.3522 48.8566)&#39;, 4326),
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        true
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    ) / 1000 AS distance
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">FROM users
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">WHERE ST_Distance(
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        position,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        GeomFromText(&#39;POINT(2.3522 48.8566)&#39;, 4326),
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        true
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    ) &lt;= 1200000 -- 1200km
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">ORDER BY distance DESC;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;&#39;&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">final</span> city <span style="color:#66d9ef">in</span> closestToParis) {
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>city[<span style="color:#e6db74">&#39;name&#39;</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74"> at </span><span style="color:#e6db74">${</span>city[<span style="color:#e6db74">&#39;distance&#39;</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74">km&#34;</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span></code></pre></div><p>This code is very simple. We select the name of the cities and their distance to the point <code>POINT(2.3522 48.8566)</code> (Paris). Then we filter the results to only include cities within a 1200km radius. Finally, we order by distance in descending order.</p>
+<p>An important point about the <code>ST_Distance</code> function: if you don&rsquo;t set the last argument to <code>true</code>, the function computes the Euclidean distance instead of the correct spherical distance.</p>
+<p>And that&rsquo;s it! You can now use geographic features with SQLite in Dart!</p>
+<p>Just in case, I&rsquo;ve included the libraries I compiled:</p>
+<p><a href="/mod_spatialite.so.8.1.0">mod_spatialite.so.8.1.0</a><br>
+<a href="/libsqlite3.so.0.8.6">libsqlite3.so.8.1.0</a></p>
+<ul class="pa0">
+  
+   <li class="list di">
+     <a href="/tags/sqlite/" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">Sqlite</a>
+   </li>
+  
+   <li class="list di">
+     <a href="/tags/spatialite/" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">Spatialite</a>
+   </li>
+  
+   <li class="list di">
+     <a href="/tags/dart/" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">Dart</a>
+   </li>
+  
+   <li class="list di">
+     <a href="/tags/compile/" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">Compile</a>
+   </li>
+  
+   <li class="list di">
+     <a href="/tags/flutter/" class="link f5 grow no-underline br-pill ba ph3 pv2 mb2 dib black sans-serif">Flutter</a>
+   </li>
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://clementbeal.github.io/" >
+    &copy;  Clement Beal 2024 
+  </a>
+    <div>
+<div class="ananke-socials">
+  
+    
+    <a href="https://twitter.com/clementbdev" target="_blank" rel="noopener" class="twitter ananke-social-link link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Twitter link" aria-label="follow on Twitter——Opens in a new window">
+      
+        <span class="icon"><svg style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;"/></svg>
+</span>
+      
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;"/>
+</svg>
+</span></a>
+  
+    
+    <a href="https://github.com/ClementBeal/" target="_blank" rel="noopener" class="github ananke-social-link link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="GitHub link" aria-label="follow on GitHub——Opens in a new window">
+      
+        <span class="icon"><svg style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+  <path d="M256,32C132.3,32,32,134.8,32,261.7c0,101.5,64.2,187.5,153.2,217.9c11.2,2.1,15.3-5,15.3-11.1   c0-5.5-0.2-19.9-0.3-39.1c-62.3,13.9-75.5-30.8-75.5-30.8c-10.2-26.5-24.9-33.6-24.9-33.6c-20.3-14.3,1.5-14,1.5-14   c22.5,1.6,34.3,23.7,34.3,23.7c20,35.1,52.4,25,65.2,19.1c2-14.8,7.8-25,14.2-30.7c-49.7-5.8-102-25.5-102-113.5   c0-25.1,8.7-45.6,23-61.6c-2.3-5.8-10-29.2,2.2-60.8c0,0,18.8-6.2,61.6,23.5c17.9-5.1,37-7.6,56.1-7.7c19,0.1,38.2,2.6,56.1,7.7   c42.8-29.7,61.5-23.5,61.5-23.5c12.2,31.6,4.5,55,2.2,60.8c14.3,16.1,23,36.6,23,61.6c0,88.2-52.4,107.6-102.3,113.3   c8,7.1,15.2,21.1,15.2,42.5c0,30.7-0.3,55.5-0.3,63c0,6.1,4,13.3,15.4,11C415.9,449.1,480,363.1,480,261.7   C480,134.8,379.7,32,256,32z"/>
+</svg>
+</span>
+      
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000"  xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;"/>
+</svg>
+</span></a>
+  
+</div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>
