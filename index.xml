@@ -6,8 +6,15 @@
     <description>Recent content in I&#39;m Clement on Clement Beal</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 13 Oct 2024 23:21:04 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 22 Oct 2024 23:36:23 -0300</lastBuildDate>
     <atom:link href="https://clementbeal.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Scatter And Surface Plots</title>
+      <link>https://clementbeal.github.io/demo/scatter-and-surface-plots/</link>
+      <pubDate>Tue, 22 Oct 2024 23:36:23 -0300</pubDate>
+      <guid>https://clementbeal.github.io/demo/scatter-and-surface-plots/</guid>
+      <description>&lt;div style=&#34;width:100%; height: 90vh;&#34;&gt;&#xA;    &lt;iframe src=&#34;https://clementbeal.github.io/3D_plots/&#34; width=&#34;100%&#34; height=&#34;100%&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;&#xA;  &lt;/div&gt;</description>
+    </item>
     <item>
       <title>Add Spatial Capabilities in SQLite</title>
       <link>https://clementbeal.github.io/post/a/add-spatial-capabilities-in-sqlite/</link>
