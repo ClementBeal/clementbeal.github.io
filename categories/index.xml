@@ -2,24 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Clement Beal</title>
-    <link>http://localhost:1313/categories/</link>
+    <link>https://clementbeal.github.io/categories/</link>
     <description>Recent content in Categories on Clement Beal</description>
     <generator>Hugo</generator>
     <language>en</language>
     <lastBuildDate>Sun, 13 Oct 2024 23:21:04 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://clementbeal.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Dart</title>
-      <link>http://localhost:1313/categories/dart/</link>
+      <link>https://clementbeal.github.io/categories/dart/</link>
       <pubDate>Sun, 13 Oct 2024 23:21:04 +0000</pubDate>
-      <guid>http://localhost:1313/categories/dart/</guid>
+      <guid>https://clementbeal.github.io/categories/dart/</guid>
       <description></description>
     </item>
     <item>
       <title>Sqlite</title>
-      <link>http://localhost:1313/categories/sqlite/</link>
+      <link>https://clementbeal.github.io/categories/sqlite/</link>
       <pubDate>Sun, 13 Oct 2024 23:21:04 +0000</pubDate>
-      <guid>http://localhost:1313/categories/sqlite/</guid>
+      <guid>https://clementbeal.github.io/categories/sqlite/</guid>
       <description></description>
     </item>
   </channel>
